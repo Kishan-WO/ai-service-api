@@ -1,0 +1,58 @@
+[project]
+name = "ai-service"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "Kishan-WO", email = "k@gmail.com" }
+]
+requires-python = ">=3.14"
+dependencies = [
+    "alembic>=1.20.1",
+    "asyncpg>=0.32.0",
+    "email-validator>=2.3.0",
+    "fastapi>=0.162.0",
+    "httpx>=0.28.1",
+    "pwdlib[argon2]>=0.3.1",
+    "pydantic-settings>=2.16.2",
+    "pyjwt>=2.15.1",
+    "pypdf>=6.21.4",
+    "python-multipart>=0.0.33",
+    "sqlalchemy[asyncio]>=2.1.8",
+    "uvicorn[standard]>=0.54.0",
+]
+
+[project.scripts]
+ai-service = "ai_service:main"
+
+[build-system]
+requires = ["uv_build>=0.13.1,<0.14.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "aiosqlite>=0.22.1",
+    "mypy>=2.4.1",
+    "pytest>=9.2.0",
+    "pytest-asyncio>=1.4.1.post1",
+    "respx>=0.23.1",
+    "ruff>=0.17.3",
+]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+src = ["src", "tests"]
+extend-exclude = ["alembic/versions"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.mypy]
+strict = true
+plugins = ["pydantic.mypy"]
+files = ["src", "tests"]
