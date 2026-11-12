@@ -22,10 +22,13 @@ from sqlalchemy.ext.asyncio import (  # noqa: E402
 )
 from sqlalchemy.pool import StaticPool  # noqa: E402
 
+from ai_service.api.deps import get_llm_registry, get_session_factory  # noqa: E402
 from ai_service.core.config import get_settings  # noqa: E402
 from ai_service.db.base import Base  # noqa: E402
 from ai_service.db.session import get_db_session  # noqa: E402
 from ai_service.main import create_app  # noqa: E402
+
+from .fakes import FakeRegistry  # noqa: E402
 
 REGISTER_URL = "/api/v1/auth/register"
 PASSWORD = "correct-horse-battery"
@@ -43,15 +46,28 @@ async def engine() -> AsyncGenerator[AsyncEngine]:
 
 
 @pytest.fixture
-def app(engine: AsyncEngine) -> FastAPI:
+def session_factory(engine: AsyncEngine) -> async_sessionmaker[AsyncSession]:
+    return async_sessionmaker(engine, expire_on_commit=False, autoflush=False)
+
+
+@pytest.fixture
+def llm() -> FakeRegistry:
+    """The fake models the app talks to in tests. Change `llm.hosted` / `llm.local` per test."""
+    return FakeRegistry()
+
+
+@pytest.fixture
+def app(session_factory: async_sessionmaker[AsyncSession], llm: FakeRegistry) -> FastAPI:
     app = create_app()
-    session_factory = async_sessionmaker(engine, expire_on_commit=False, autoflush=False)
 
     async def override_get_db_session() -> AsyncGenerator[AsyncSession]:
         async with session_factory() as session:
             yield session
 
     app.dependency_overrides[get_db_session] = override_get_db_session
+    # the chat stream saves its reply in a session of its own, which must also use the test database
+    app.dependency_overrides[get_session_factory] = lambda: session_factory
+    app.dependency_overrides[get_llm_registry] = lambda: llm
     return app
 
 

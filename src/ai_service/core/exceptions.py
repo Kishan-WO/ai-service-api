@@ -67,6 +67,34 @@ class DuplicateDocumentError(AppError):
         )
 
 
+class ConversationNotFoundError(AppError):
+    """Also used for another tenant's or user's conversation: never reveal that it exists."""
+
+    status_code = 404
+    code = "CONVERSATION_NOT_FOUND"
+    message = "Conversation not found."
+
+
+class LLMNotConfiguredError(AppError):
+    status_code = 503
+    code = "LLM_NOT_CONFIGURED"
+    message = "The language model is not configured on this server."
+
+
+class LLMUnavailableError(AppError):
+    """The provider failed (down, rate limited, bad key, timeout). Details stay in the logs."""
+
+    status_code = 502
+    code = "LLM_UNAVAILABLE"
+    message = "The language model could not be reached. Please try again."
+
+
+class ExtractionFailedError(AppError):
+    status_code = 422
+    code = "EXTRACTION_FAILED"
+    message = "The model did not return data in the expected shape."
+
+
 class UnsupportedFileTypeError(AppError):
     status_code = 415
     code = "UNSUPPORTED_FILE_TYPE"

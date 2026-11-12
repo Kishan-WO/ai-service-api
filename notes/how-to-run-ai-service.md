@@ -53,7 +53,7 @@ The app reads `.env`, where `DATABASE_URL` uses `localhost:5433`.
 
 ## 4. Tests and checks
 ```bash
-uv run pytest             # 42 tests, in-memory SQLite, no Docker needed
+uv run pytest             # 70 tests, in-memory SQLite, no Docker needed
 uv run mypy               # strict type check
 uv run ruff check .       # lint
 ```

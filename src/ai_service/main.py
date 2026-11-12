@@ -16,15 +16,18 @@ from ai_service.core.middlewares import (
     register_error_handlers,
 )
 from ai_service.db.session import engine
+from ai_service.services.llm import SettingsLLMRegistry
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI) -> AsyncGenerator[None]:
     # one shared client for the whole process: connection pooling, one place for timeouts
     app.state.http_client = httpx.AsyncClient(timeout=httpx.Timeout(30.0, connect=5.0))
+    app.state.llm = SettingsLLMRegistry(get_settings())  # model clients are built on first use
     try:
         yield
     finally:
+        await app.state.llm.aclose()
         await app.state.http_client.aclose()
         await engine.dispose()
 

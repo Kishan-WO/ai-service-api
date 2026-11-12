@@ -76,7 +76,7 @@ Source: my chat with the Antigravity IDE chatbot while building `ai-service`, 4 
 | Error handler placement, handlers vs middleware order | `notes/exception-handlers-vs-express.md` |
 | Why services commit and roll back themselves | `gotchas.md` ("Commit in the service") and `decisions.md` (item 7) |
 | `asyncio.to_thread` and blocking the event loop | Day 2: `learning/12.blocking-loop-to-thread-httpx.md` |
-| `**kwargs`, `*args`, and the `ParamSpec` stars | Day 2: `Notes/paramspec-and-double-star.md` |
+| `**kwargs`, `*args`, and the `ParamSpec` stars | Day 2: `Notes/task-2-paramspec-and-double-star.md` |
 
 ## Still open
 - The **route** part of `stream.py` (I said "next time we will take the route").

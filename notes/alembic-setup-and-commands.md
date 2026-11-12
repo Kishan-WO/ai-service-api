@@ -22,7 +22,7 @@ Inside the database, one table `alembic_version` stores the id of the current mi
 import ai_service.db.models  # noqa: F401
 target_metadata = Base.metadata
 ```
-- Importing the models registers their tables in `Base.metadata`. `# noqa: F401` stops the linter deleting this "unused" import (see `day-2/Notes/noqa-and-linters.md`).
+- Importing the models registers their tables in `Base.metadata`. `# noqa: F401` stops the linter deleting this "unused" import (see `day-2/Notes/task-3-noqa-and-linters.md`).
 - `target_metadata` is what autogenerate compares with the real database.
 
 ```python

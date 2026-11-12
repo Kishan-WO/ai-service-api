@@ -7,13 +7,14 @@ import httpx
 import jwt
 from fastapi import Depends, Request
 from fastapi.security import OAuth2PasswordBearer
-from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
 from ai_service.core.config import Settings, get_settings
 from ai_service.core.exceptions import NotAuthenticatedError
 from ai_service.core.security import decode_access_token
 from ai_service.db.models import User
-from ai_service.db.session import get_db_session
+from ai_service.db.session import async_session_factory, get_db_session
+from ai_service.services.llm import LLMRegistry
 
 DbSession = Annotated[AsyncSession, Depends(get_db_session)]
 AppSettings = Annotated[Settings, Depends(get_settings)]
@@ -59,3 +60,20 @@ def get_http_client(request: Request) -> httpx.AsyncClient:
 
 
 HttpClient = Annotated[httpx.AsyncClient, Depends(get_http_client)]
+
+
+def get_llm_registry(request: Request) -> LLMRegistry:
+    """The model providers created once in the app lifespan. Tests override this with a fake."""
+    registry: LLMRegistry = request.app.state.llm
+    return registry
+
+
+Llm = Annotated[LLMRegistry, Depends(get_llm_registry)]
+
+
+def get_session_factory() -> async_sessionmaker[AsyncSession]:
+    """Sessions that outlive the request (the chat stream saves its reply after the handler)."""
+    return async_session_factory
+
+
+SessionFactory = Annotated[async_sessionmaker[AsyncSession], Depends(get_session_factory)]

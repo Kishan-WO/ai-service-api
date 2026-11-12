@@ -4,7 +4,7 @@ from functools import lru_cache
 from pathlib import Path
 from typing import Literal
 
-from pydantic import Field, field_validator
+from pydantic import Field, SecretStr, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 # Base directory for ai-service
@@ -13,9 +13,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent.parent
 
 class Settings(BaseSettings):
     # Application settings with strict environment choices
-    ENVIRONMENT: Literal["development", "staging", "production", "testing"] = (
-        "development"
-    )
+    ENVIRONMENT: Literal["development", "staging", "production", "testing"] = "development"
     DEBUG: bool = True
     PROJECT_NAME: str = "ai-service"
     API_V1_PREFIX: str = "/api/v1"
@@ -45,14 +43,29 @@ class Settings(BaseSettings):
     # Empty means no CORS middleware at all.
     CORS_ORIGINS: list[str] = Field(default_factory=list)
 
+    # LLM providers. Both speak the OpenAI chat-completions protocol, so one SDK serves both.
+    # "hosted" = Gemini by default; "local" = Ollama. Nothing is required to start the service:
+    # a missing hosted key only fails when someone calls /chat or /extract.
+    LLM_API_KEY: SecretStr | None = None
+    LLM_BASE_URL: str = "https://generativelanguage.googleapis.com/v1beta/openai/"
+    LLM_MODEL: str = ""
+    LOCAL_LLM_BASE_URL: str = "http://localhost:11434/v1"
+    LOCAL_LLM_MODEL: str = "gemma3:270m"
+    LLM_TIMEOUT_SECONDS: float = Field(default=60.0, gt=0)
+    # The SDK re-sends a failed request this many times, so the worst case wait is
+    # (retries + 1) x timeout. One retry keeps a stuck model from holding a request for minutes.
+    LLM_MAX_RETRIES: int = Field(default=1, ge=0)
+    LLM_MAX_OUTPUT_TOKENS: int = Field(default=2000, gt=0)
+    CHAT_SYSTEM_PROMPT: str = "You are a helpful assistant. Answer clearly and briefly."
+    # How many of the latest stored messages are sent to the model on each turn.
+    CHAT_HISTORY_LIMIT: int = Field(default=20, ge=1)
+
     @field_validator("DATABASE_URL")
     @classmethod
     def validate_database_url(cls, v: str) -> str:
         valid_prefixes = ("postgresql+asyncpg://", "sqlite+aiosqlite://")
         if not any(v.startswith(prefix) for prefix in valid_prefixes):
-            raise ValueError(
-                f"DATABASE_URL must start with one of {valid_prefixes}. Got: {v}"
-            )
+            raise ValueError(f"DATABASE_URL must start with one of {valid_prefixes}. Got: {v}")
         return v
 
     model_config = SettingsConfigDict(
