@@ -12,7 +12,7 @@ from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 from ai_service.core.config import get_settings
 from ai_service.db.models import Conversation, Message
 from ai_service.services.chat_service import chat_stream
-from ai_service.services.llm import Finish, TextDelta
+from ai_service.services.llm import Finish, LLMRequest, StreamStart, TextDelta, Usage
 
 from .fakes import FakeProvider, FakeRegistry
 from .test_stream import FakeRequest, parse_sse
@@ -22,11 +22,18 @@ CONVERSATIONS_URL = "/api/v1/chat/conversations"
 
 
 async def send(
-    client: httpx.AsyncClient, headers: dict[str, str], message: str, **extra: Any
+    client: httpx.AsyncClient,
+    headers: dict[str, str],
+    message: str,
+    headers_extra: dict[str, str] | None = None,
+    **extra: Any,
 ) -> tuple[httpx.Response, list[tuple[str, dict[str, Any]]]]:
     """POST /chat and read the whole stream."""
     async with client.stream(
-        "POST", CHAT_URL, json={"message": message, **extra}, headers=headers
+        "POST",
+        CHAT_URL,
+        json={"message": message, **extra},
+        headers={**headers, **(headers_extra or {})},
     ) as response:
         raw = "".join([chunk async for chunk in response.aiter_text()])
     events = parse_sse(raw) if response.status_code == 200 and raw.strip() else []
@@ -269,7 +276,8 @@ async def test_disconnect_closes_the_upstream_call_and_keeps_the_partial_answer(
         await session.commit()
 
     provider = FakeProvider("fake-hosted", texts=("one ", "two ", "three ", "four "))
-    events = provider.stream_chat([])
+    events = provider.stream(LLMRequest([]))
+    assert isinstance(await anext(events), StreamStart)  # who answers, no text yet
     first = await anext(events)
     assert isinstance(first, TextDelta)
 
@@ -313,7 +321,8 @@ async def test_cancelling_the_stream_task_still_saves_and_closes(
         await session.commit()
 
     provider = FakeProvider("fake-hosted", texts=("a ", "b ", "c ", "d "), delay=0.05)
-    events = provider.stream_chat([])
+    events = provider.stream(LLMRequest([]))
+    assert isinstance(await anext(events), StreamStart)  # who answers, no text yet
     first = await anext(events)
     assert isinstance(first, TextDelta)
     stream = chat_stream(
@@ -355,7 +364,8 @@ async def test_no_answer_text_means_nothing_is_saved_for_the_assistant(
     before = len(await _assistant_messages(session_factory))
 
     provider = FakeProvider(texts=())  # a model that answers with nothing but the finish event
-    events = provider.stream_chat([])
+    events = provider.stream(LLMRequest([]))
+    assert isinstance(await anext(events), StreamStart)  # who answers, no text yet
     first = await anext(events)
     assert isinstance(first, Finish)
     chunks = [
@@ -428,3 +438,44 @@ async def test_a_client_gone_by_the_first_token_stores_nothing(
     assert response.status_code == 499
     assert llm.hosted.closed
     assert stored is None
+
+
+async def test_the_call_is_labelled_and_asks_for_the_system_prompt_to_be_cached(
+    client: httpx.AsyncClient, auth_headers: dict[str, str], llm: FakeRegistry
+) -> None:
+    await send(client, auth_headers, "hello", headers_extra={"X-Request-ID": "chat-req-1"})
+    request = llm.hosted.requests[-1]
+
+    assert request.cache_system is True  # the system prompt is stable: let the provider cache it
+    assert request.messages[0].role == "system"  # stable part first, the new message last
+    assert request.messages[-1].content == "hello"
+    assert (request.context.feature, request.context.request_id) == ("chat", "chat-req-1")
+    assert request.context.tenant_id and request.context.user_id
+
+
+async def test_the_done_event_reports_cached_tokens(
+    client: httpx.AsyncClient, auth_headers: dict[str, str], llm: FakeRegistry
+) -> None:
+    llm.hosted = FakeProvider("fake-hosted", stream_usage=Usage(10, 5, cache_read_tokens=90))
+    _, events = await send(client, auth_headers, "hello")
+
+    done = events[-1][1]
+    assert (done["input_tokens"], done["output_tokens"], done["cache_read_tokens"]) == (100, 5, 90)
+
+
+async def test_the_saved_message_names_the_model_that_really_answered(
+    client: httpx.AsyncClient,
+    auth_headers: dict[str, str],
+    llm: FakeRegistry,
+) -> None:
+    # the registry returns a client that fell back to another model before the first token
+    llm.hosted = FakeProvider("fallback-model", backend="local")
+    _, events = await send(client, auth_headers, "hello")
+
+    assert events[0][1]["model"] == "fallback-model"
+    detail = (
+        await client.get(
+            f"{CONVERSATIONS_URL}/{events[0][1]['conversation_id']}", headers=auth_headers
+        )
+    ).json()
+    assert detail["messages"][1]["model"] == "fallback-model"

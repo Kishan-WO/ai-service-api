@@ -4,11 +4,20 @@ from functools import lru_cache
 from pathlib import Path
 from typing import Literal
 
-from pydantic import Field, SecretStr, field_validator
+from pydantic import BaseModel, Field, SecretStr, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 # Base directory for ai-service
 BASE_DIR = Path(__file__).resolve().parent.parent.parent.parent
+
+
+class ModelPrice(BaseModel):
+    """USD per 1,000,000 tokens."""
+
+    input: float = Field(default=0.0, ge=0)  # new (uncached) input
+    output: float = Field(default=0.0, ge=0)
+    cache_read: float = Field(default=0.0, ge=0)  # input served from the provider's cache
+    cache_write: float = Field(default=0.0, ge=0)  # input written to the cache (extra on Anthropic)
 
 
 class Settings(BaseSettings):
@@ -52,13 +61,45 @@ class Settings(BaseSettings):
     LOCAL_LLM_BASE_URL: str = "http://localhost:11434/v1"
     LOCAL_LLM_MODEL: str = "gemma3:270m"
     LLM_TIMEOUT_SECONDS: float = Field(default=60.0, gt=0)
-    # The SDK re-sends a failed request this many times, so the worst case wait is
-    # (retries + 1) x timeout. One retry keeps a stuck model from holding a request for minutes.
-    LLM_MAX_RETRIES: int = Field(default=1, ge=0)
     LLM_MAX_OUTPUT_TOKENS: int = Field(default=2000, gt=0)
     CHAT_SYSTEM_PROMPT: str = "You are a helpful assistant. Answer clearly and briefly."
+    # A long, stable system prompt read from a file (relative paths start at the project folder).
+    # When set it replaces CHAT_SYSTEM_PROMPT. Long enough, it is cached by the provider.
+    CHAT_SYSTEM_PROMPT_FILE: str = ""
     # How many of the latest stored messages are sent to the model on each turn.
     CHAT_HISTORY_LIMIT: int = Field(default=20, ge=1)
+
+    # Second provider (Day 6). The SDKs' own retries are switched off: our wrapper retries, so
+    # the numbers below are the only retry settings and the calls do not multiply.
+    ANTHROPIC_API_KEY: SecretStr | None = None
+    ANTHROPIC_MODEL: str = ""
+    # When a backend keeps failing (rate limit, overload, timeout), answer from this one instead.
+    LLM_FALLBACK_BACKEND: Literal["hosted", "local", "anthropic"] | None = None
+    LLM_RETRY_ATTEMPTS: int = Field(default=3, ge=1)  # tries per backend, the first one included
+    LLM_RETRY_BASE_DELAY_SECONDS: float = Field(default=1.0, ge=0)
+    LLM_RETRY_MAX_DELAY_SECONDS: float = Field(default=20.0, ge=0)
+    LLM_RETRY_TOTAL_SECONDS: float = Field(default=90.0, gt=0)  # stop retrying after this long
+    # Calls in flight at once, per backend, and calls per minute (0 = no limit). The free Gemini
+    # tier allows 15 per minute, so a batch of inputs must not be sent all at once.
+    LLM_MAX_CONCURRENCY: int = Field(default=4, ge=1)
+    LLM_REQUESTS_PER_MINUTE: int = Field(default=0, ge=0)
+
+    # USD per 1,000,000 tokens, by model name. Copied from the providers' price pages (checked
+    # 2026-11): they change, so override this with LLM_PRICES='{"model": {...}}' when they do.
+    # A model that is not listed is logged with cost = null; it never breaks a request.
+    LLM_PRICES: dict[str, ModelPrice] = Field(
+        default_factory=lambda: {
+            # Standard (paid) price. The free tier does not bill, so this is the cost it would have.
+            "gemini-3.1-flash-lite": ModelPrice(input=0.25, output=1.50, cache_read=0.025),
+            "gemma3:270m": ModelPrice(),  # local: no per-token price
+        }
+    )
+
+    @field_validator("LLM_API_KEY", "ANTHROPIC_API_KEY", "LLM_FALLBACK_BACKEND", mode="before")
+    @classmethod
+    def blank_means_not_set(cls, v: object) -> object:
+        # `KEY=` in a .env file arrives as "", which is "not configured", not an empty key
+        return None if isinstance(v, str) and not v.strip() else v
 
     @field_validator("DATABASE_URL")
     @classmethod

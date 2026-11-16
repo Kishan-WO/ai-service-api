@@ -2,6 +2,7 @@
 
 from ai_service.db.models.conversation import Conversation, Message
 from ai_service.db.models.document import Document
+from ai_service.db.models.llm_call import LLMCall
 from ai_service.db.models.tenant import Tenant
 from ai_service.db.models.user import User
 
@@ -11,4 +12,5 @@ __all__ = [
     "Document",
     "Conversation",
     "Message",
+    "LLMCall",
 ]

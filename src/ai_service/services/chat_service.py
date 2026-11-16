@@ -10,12 +10,15 @@ import logging
 import uuid
 from collections.abc import AsyncGenerator, AsyncIterator
 from datetime import UTC, datetime
+from functools import lru_cache
+from pathlib import Path
 from typing import Protocol
 
 import anyio
 from sqlalchemy import func, select, update
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
+from ai_service.core.config import BASE_DIR, Settings
 from ai_service.core.exceptions import ConversationNotFoundError
 from ai_service.db.models import Conversation, Message
 from ai_service.db.models.conversation import STATUS_CANCELLED, STATUS_COMPLETE, STATUS_ERROR
@@ -26,6 +29,23 @@ logger = logging.getLogger("ai_service.chat")
 
 class DisconnectCheck(Protocol):
     async def is_disconnected(self) -> bool: ...
+
+
+@lru_cache
+def _read_prompt_file(path: str) -> str:
+    file = Path(path)
+    return (file if file.is_absolute() else BASE_DIR / file).read_text(encoding="utf-8").strip()
+
+
+def system_prompt(settings: Settings) -> str:
+    """The system prompt: from a file when one is configured, else the short one in the settings.
+
+    It is the first thing in every request and never changes between turns, so a long one is
+    read from the provider's prompt cache (cheaper and faster) from the second turn on.
+    """
+    if settings.CHAT_SYSTEM_PROMPT_FILE:
+        return _read_prompt_file(settings.CHAT_SYSTEM_PROMPT_FILE)
+    return settings.CHAT_SYSTEM_PROMPT
 
 
 def sse_event(event: str, data: dict[str, object]) -> str:
@@ -231,7 +251,7 @@ async def chat_stream(
                 parts.append(pending.text)
                 chunks += 1
                 yield sse_event("token", {"text": pending.text})
-            else:
+            elif isinstance(pending, Finish):
                 finish = pending
             try:
                 pending = await anext(events)
@@ -245,6 +265,7 @@ async def chat_stream(
                 "stop_reason": finish.stop_reason if finish else None,
                 "input_tokens": finish.input_tokens if finish else None,
                 "output_tokens": finish.output_tokens if finish else None,
+                "cache_read_tokens": finish.cache_read_tokens if finish else None,
             },
         )
     except asyncio.CancelledError:

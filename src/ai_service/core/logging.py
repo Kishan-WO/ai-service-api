@@ -25,6 +25,20 @@ class JSONFormatter(logging.Formatter):
             "path",
             "method",
             "status_code",
+            # one line per language-model call (services/llm_accounting.py)
+            "feature",
+            "backend",
+            "model",
+            "operation",
+            "status",
+            "error_type",
+            "stop_reason",
+            "input_tokens",
+            "output_tokens",
+            "cache_read_tokens",
+            "cache_write_tokens",
+            "cost_usd",
+            "latency_ms",
         )
         for attr in context_fields:
             if hasattr(record, attr):

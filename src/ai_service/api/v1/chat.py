@@ -17,7 +17,13 @@ from ai_service.schemas.chat import (
     MessageResponse,
 )
 from ai_service.services import chat_service
-from ai_service.services.llm import ChatMessage, LLMError
+from ai_service.services.llm import (
+    CallContext,
+    ChatMessage,
+    LLMError,
+    LLMRequest,
+    StreamStart,
+)
 
 logger = logging.getLogger("ai_service.chat")
 
@@ -44,7 +50,7 @@ async def chat(
     counts) or `error`. Omit `conversation_id` to start a new conversation; the first event
     carries its id.
     """
-    provider = llm.get(body.backend)
+    client = llm.get(body.backend)
 
     conversation = None
     history: list[ChatMessage] = []
@@ -58,17 +64,34 @@ async def chat(
         history = await chat_service.load_history(
             session, conversation_id=conversation.id, limit=settings.CHAT_HISTORY_LIMIT
         )
+    # Give the database connection back before the (slow) wait for the model; see /extract.
+    # The session opens a new transaction by itself when start_turn needs it below.
+    await session.commit()
+
+    # Stable part first (system prompt, then the old messages), the new message last: that order
+    # is what lets the provider reuse its cache of the prefix.
     messages = [
-        ChatMessage("system", settings.CHAT_SYSTEM_PROMPT),
+        ChatMessage("system", chat_service.system_prompt(settings)),
         *history,
         ChatMessage("user", body.message),
     ]
+    call_context = CallContext(
+        request_id=getattr(request.state, "request_id", None),
+        tenant_id=str(user.tenant_id),
+        user_id=str(user.id),
+        feature="chat",
+    )
 
-    # Wait for the first event before answering. Until then nothing has been sent or stored, so a
+    # Wait for the first text before answering. Until then nothing has been sent or stored, so a
     # provider that is down can still be reported as a normal 502, and nothing is left behind.
-    events = provider.stream_chat(messages)
+    # (Retries and the fallback backend also happen in this wait, below this route.)
+    events = client.stream(LLMRequest(messages, cache_system=True, context=call_context))
+    served_model = client.model
     try:
         first = await anext(events)
+        if isinstance(first, StreamStart):  # which model really answers (maybe the fallback)
+            served_model = first.model
+            first = await anext(events)
     except (LLMError, StopAsyncIteration) as exc:
         await events.aclose()
         raise LLMUnavailableError() from exc
@@ -76,10 +99,10 @@ async def chat(
         await events.aclose()
         raise
 
-    context = {
-        "request_id": getattr(request.state, "request_id", None),
-        "tenant_id": str(user.tenant_id),
-        "user_id": str(user.id),
+    context: dict[str, object] = {
+        "request_id": call_context.request_id,
+        "tenant_id": call_context.tenant_id,
+        "user_id": call_context.user_id,
     }
     if await request.is_disconnected():
         # The model can be slow, and the server is not told about a client that leaves before
@@ -103,7 +126,7 @@ async def chat(
             conversation_id=conversation.id,
             user_message_id=user_message.id,
             tenant_id=user.tenant_id,
-            model=provider.model,
+            model=served_model,
             session_factory=session_factory,
             log_context=context,
         ),

@@ -15,15 +15,17 @@ from ai_service.core.middlewares import (
     RequestContextMiddleware,
     register_error_handlers,
 )
-from ai_service.db.session import engine
+from ai_service.db.session import async_session_factory, engine
 from ai_service.services.llm import SettingsLLMRegistry
+from ai_service.services.llm_accounting import DbCallRecorder
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI) -> AsyncGenerator[None]:
     # one shared client for the whole process: connection pooling, one place for timeouts
     app.state.http_client = httpx.AsyncClient(timeout=httpx.Timeout(30.0, connect=5.0))
-    app.state.llm = SettingsLLMRegistry(get_settings())  # model clients are built on first use
+    # model clients are built on first use; every call they make is logged and saved to llm_calls
+    app.state.llm = SettingsLLMRegistry(get_settings(), DbCallRecorder(async_session_factory))
     try:
         yield
     finally:

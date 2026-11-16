@@ -95,6 +95,14 @@ class ExtractionFailedError(AppError):
     message = "The model did not return data in the expected shape."
 
 
+class ExtractionRefusedError(AppError):
+    """The model, or a safety filter in front of it, declined to read the text."""
+
+    status_code = 422
+    code = "EXTRACTION_REFUSED"
+    message = "The model declined to process this text."
+
+
 class UnsupportedFileTypeError(AppError):
     status_code = 415
     code = "UNSUPPORTED_FILE_TYPE"
