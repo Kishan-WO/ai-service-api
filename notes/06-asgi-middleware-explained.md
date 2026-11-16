@@ -2,7 +2,7 @@
 
 Question: what does `app.add_middleware(RequestContextMiddleware)` do, in which order does a request pass through, and what are `scope`, `send_with_headers` and the `try/finally` in `core/middlewares.py`?
 
-For the full request journey see `request-response-cycle.md`; for error handler placement see `exception-handlers-vs-express.md`.
+For the full request journey see `05-request-response-cycle.md`; for error handler placement see `07-exception-handlers-vs-express.md`.
 
 ## 1. What ASGI is
 ASGI is the standard interface between a Python web server (uvicorn) and the app. Every ASGI app is a function with **three arguments**:

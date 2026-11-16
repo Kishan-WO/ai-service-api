@@ -98,7 +98,7 @@ async def stream_demo(request: Request, user: CurrentUser, delay_ms: Annotated[i
 ```
 | Part | Meaning |
 |---|---|
-| `user: CurrentUser` | Login required (see `dependencies-deps-walkthrough.md`) |
+| `user: CurrentUser` | Login required (see `10-dependencies-deps-walkthrough.md`) |
 | `delay_ms` (0-1000, default 50) | Query parameter for the pause between words; tests use 0 |
 | `StreamingResponse(generator, ...)` | Sends each value the generator yields **as soon as it is yielded**, without waiting for the end |
 | `media_type="text/event-stream"` | Tells the client this is SSE |

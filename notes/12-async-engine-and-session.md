@@ -56,7 +56,7 @@ Express comparison: middleware that opens a client before the handler and releas
 ## 5. A catch I measured
 In current FastAPI, the code after `yield` runs **after the response has been sent**. A `commit()` placed there means the client can receive a success answer before the data is saved, and a failed commit cannot change the response any more.
 
-So the services call `await session.commit()` themselves (before returning). The `commit()` in `get_db_session` is only a safety net. More in `gotchas.md` and `transactions-commit-rollback.md`.
+So the services call `await session.commit()` themselves (before returning). The `commit()` in `get_db_session` is only a safety net. More in `gotchas.md` and `15-transactions-commit-rollback.md`.
 
 ## 6. Closing the pool
 The engine is disposed when the app shuts down (`await engine.dispose()` in the `lifespan`), which closes all pooled connections cleanly.

@@ -30,7 +30,7 @@ oauth2_scheme = OAuth2PasswordBearer(
 )
 ```
 - It reads the `Authorization: Bearer <token>` header and returns the token string.
-- `tokenUrl` tells Swagger where to send the username and password (the **Authorize** button; see `swagger-authorize-and-oauth2.md`).
+- `tokenUrl` tells Swagger where to send the username and password (the **Authorize** button; see `11-swagger-authorize-and-oauth2.md`).
 - `auto_error=False`: if the header is missing, return `None` instead of raising FastAPI's own 401. That lets my code raise the project's error with the standard envelope.
 
 ## 4. `get_current_user` step by step (lines 27-49)

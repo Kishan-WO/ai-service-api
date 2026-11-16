@@ -44,7 +44,7 @@ except IntegrityError:
     await session.rollback()
     raise EmailAlreadyRegisteredError() from None
 ```
-The check gives a fast, friendly answer in the normal case; the unique constraint guarantees correctness in the race case. See `transactions-commit-rollback.md`.
+The check gives a fast, friendly answer in the normal case; the unique constraint guarantees correctness in the race case. See `15-transactions-commit-rollback.md`.
 
 ## 5. The tenant rule in queries
 Every query on tenant data adds the tenant to the condition:
