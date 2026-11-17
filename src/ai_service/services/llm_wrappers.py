@@ -70,18 +70,21 @@ class RateLimiter:
         self._clock = clock
         self._sleep = sleep
         self._starts: deque[float] = deque()
-        self._lock = asyncio.Lock()
+        # self._lock = asyncio.Lock()
 
     async def acquire(self) -> None:
-        async with self._lock:  # one waiter at a time keeps the order fair
-            while True:
-                now = self._clock()
-                while self._starts and now - self._starts[0] >= 60:
-                    self._starts.popleft()
-                if len(self._starts) < self._per_minute:
-                    self._starts.append(now)
-                    return
-                await self._sleep(self._starts[0] + 60 - now)
+        # No lock needed: asyncio switches tasks only at an `await`, and the check and the
+        # append below have none between them, so two tasks cannot take the same last slot.
+        # After the sleep the loop checks again, so a woken task never skips the limit.
+        # async with self._lock:
+        while True:
+            now = self._clock()
+            while self._starts and now - self._starts[0] >= 60:
+                self._starts.popleft()
+            if len(self._starts) < self._per_minute:
+                self._starts.append(now)
+                return
+            await self._sleep(self._starts[0] + 60 - now)
 
 
 class LimitedClient:

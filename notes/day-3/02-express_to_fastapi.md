@@ -53,5 +53,5 @@ request
 | Unreadable file | 422 |
 
 ## See also
-- `05-request-response-cycle.md`: one request traced through every layer, with the four error paths.
-- `07-exception-handlers-vs-express.md`: why handler order does not matter but middleware order does.
+- `03-request-response-cycle.md`: one request traced through every layer, with the four error paths.
+- `11-exception-handlers-vs-express.md`: why handler order does not matter but middleware order does.

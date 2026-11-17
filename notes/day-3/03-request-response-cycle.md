@@ -96,7 +96,7 @@ For `GET /stream/demo` the endpoint returns a `StreamingResponse` around an asyn
 | Business rules and commits | `src/ai_service/services/` |
 
 Tests: `tests/test_middleware.py`, `tests/test_auth.py`, `tests/test_isolation.py`.
-Related: `07-exception-handlers-vs-express.md`, `04-express_to_fastapi.md`.
+Related: `11-exception-handlers-vs-express.md`, `02-express_to_fastapi.md`.
 
 ## Quick check
 - Which layer is outermost, and why do 500 responses need to set `X-Request-ID` themselves?

@@ -44,7 +44,7 @@ The app reads `.env`, where `DATABASE_URL` uses `localhost:5433`.
 
 ## 3. First steps in the API
 1. Open `/docs`, call `POST /api/v1/auth/register` with an email, a password of 8+ characters and a tenant name.
-2. Click **Authorize** and log in with the email and password (see `11-swagger-authorize-and-oauth2.md`).
+2. Click **Authorize** and log in with the email and password (see `08-swagger-authorize-and-oauth2.md`).
 3. Try `POST /api/v1/documents/upload` with a `.txt`, `.md` or `.pdf` file, then list, get and delete.
 4. For the stream, use curl, not Swagger:
    ```bash
@@ -59,7 +59,7 @@ uv run ruff check .       # lint
 ```
 
 ## 5. The settings file
-`.env` (copy from `.env.example`). The two required values are `SECRET_KEY` (32+ characters) and `DATABASE_URL`. The app refuses to start if they are missing or invalid (see `09-pydantic-settings-config.md`).
+`.env` (copy from `.env.example`). The two required values are `SECRET_KEY` (32+ characters) and `DATABASE_URL`. The app refuses to start if they are missing or invalid (see `13-pydantic-settings-config.md`).
 
 ## 6. When something fails
 | Symptom | Likely cause |
