@@ -99,6 +99,8 @@ class CallContext:
     tenant_id: str | None = None
     user_id: str | None = None
     feature: str = "unknown"  # "chat", "extract", ...
+    prompt_name: str | None = None  # which registry prompt built this call
+    prompt_version: str | None = None  # which version of it, such as "v2"
 
 
 @dataclass(frozen=True)

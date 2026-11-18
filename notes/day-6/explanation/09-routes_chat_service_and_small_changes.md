@@ -1,5 +1,7 @@
 # Routes, `chat_service`, prompt caching and the small changes
 
+> **Update (Day 7):** the `/chat` system prompt is now a **registry prompt**: the long handbook is `prompts/chat_system/v1.md` and the one-line default is `prompts/chat_basic/v1.md`, chosen by the settings `CHAT_PROMPT_NAME` and `CHAT_PROMPT_VERSION`. `CHAT_SYSTEM_PROMPT`, `CHAT_SYSTEM_PROMPT_FILE` and `chat_service.system_prompt()` no longer exist (it is `chat_service.chat_prompt()` now). The text below describes Day 6.
+
 This file covers what Day 6 changed in files that already existed:
 1. `src/ai_service/api/v1/extract.py` (66 lines)
 2. `src/ai_service/api/v1/chat.py` (the `POST /chat` function, lines 33 to 139)

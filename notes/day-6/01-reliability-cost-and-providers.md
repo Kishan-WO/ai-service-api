@@ -1,5 +1,7 @@
 # Day 6: reliability, cost and provider abstraction
 
+> **Update (Day 7):** the `/chat` system prompt is now a **registry prompt**: the long handbook is `prompts/chat_system/v1.md` and the one-line default is `prompts/chat_basic/v1.md`, chosen by the settings `CHAT_PROMPT_NAME` and `CHAT_PROMPT_VERSION`. `CHAT_SYSTEM_PROMPT`, `CHAT_SYSTEM_PROMPT_FILE` and `chat_service.system_prompt()` no longer exist (it is `chat_service.chat_prompt()` now). The text below describes Day 6.
+
 What was added to `ai-service` on Day 6, how the layers fit together, and what happened when I ran it against the real models. Decisions 25 to 36 are in `decisions.md`; the traps I hit are in `gotchas.md`.
 
 ## 1. The shape of the LLM layer

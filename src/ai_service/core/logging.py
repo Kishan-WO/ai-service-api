@@ -27,6 +27,8 @@ class JSONFormatter(logging.Formatter):
             "status_code",
             # one line per language-model call (services/llm_accounting.py)
             "feature",
+            "prompt_name",
+            "prompt_version",
             "backend",
             "model",
             "operation",

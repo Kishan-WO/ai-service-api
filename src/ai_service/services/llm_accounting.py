@@ -47,6 +47,8 @@ class LLMCallRecord:
     usage: Usage | None
     cost_usd: Decimal | None
     latency_ms: float
+    prompt_name: str | None = None
+    prompt_version: str | None = None
 
 
 class CallRecorder(Protocol):
@@ -75,6 +77,8 @@ class DbCallRecorder:
                     tenant_id=_as_uuid(call.tenant_id),
                     user_id=_as_uuid(call.user_id),
                     feature=call.feature,
+                    prompt_name=call.prompt_name,
+                    prompt_version=call.prompt_version,
                     backend=call.backend,
                     model=call.model,
                     operation=call.operation,
@@ -221,6 +225,8 @@ class AccountingClient:
             usage=usage,
             cost_usd=cost,
             latency_ms=latency_ms,
+            prompt_name=context.prompt_name,
+            prompt_version=context.prompt_version,
         )
         logger.log(
             logging.INFO if status == CALL_OK else logging.WARNING,
@@ -235,6 +241,8 @@ class AccountingClient:
                 "tenant_id": context.tenant_id,
                 "user_id": context.user_id,
                 "feature": context.feature,
+                "prompt_name": context.prompt_name,
+                "prompt_version": context.prompt_version,
                 "backend": self.backend,
                 "model": model,
                 "operation": operation,

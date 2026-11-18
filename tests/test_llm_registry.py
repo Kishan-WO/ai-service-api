@@ -6,7 +6,7 @@ import pytest
 
 from ai_service.core.config import Settings
 from ai_service.core.exceptions import LLMNotConfiguredError
-from ai_service.services.chat_service import system_prompt
+from ai_service.services.chat_service import chat_prompt
 from ai_service.services.llm import SettingsLLMRegistry
 from ai_service.services.llm_wrappers import FallbackClient, RetryingClient
 
@@ -67,18 +67,20 @@ def test_a_backend_without_its_key_is_reported_as_not_configured() -> None:
         registry.get("anthropic")
 
 
-def test_the_system_prompt_comes_from_the_file_when_one_is_set(tmp_path: Path) -> None:
-    prompt_file = tmp_path / "prompt.md"
-    prompt_file.write_text("  You are the long, stable prompt.  \n", encoding="utf-8")
+def test_the_chat_prompt_comes_from_the_registry() -> None:
+    basic = chat_prompt(settings())
+    assert (basic.name, basic.version) == ("chat_basic", "v1")
+    assert basic.render() == "You are a helpful assistant. Answer clearly and briefly."
 
-    assert system_prompt(settings(CHAT_SYSTEM_PROMPT="short")) == "short"
-    assert system_prompt(settings(CHAT_SYSTEM_PROMPT_FILE=str(prompt_file))) == (
-        "You are the long, stable prompt."
-    )
+    handbook = chat_prompt(settings(CHAT_PROMPT_NAME="chat_system", CHAT_PROMPT_VERSION="v1"))
+    assert (handbook.name, handbook.version) == ("chat_system", "v1")
+    assert handbook.render().startswith("You are the enquiry assistant of Bright Path Academy")
+    assert handbook.render() == handbook.render()  # identical every call, so the cache can hit
 
 
 def test_the_shipped_system_prompt_is_long_enough_to_be_cached() -> None:
-    path = Path(__file__).parent.parent / "src" / "ai_service" / "prompts" / "chat_system.md"
+    prompts = Path(__file__).parent.parent / "src" / "ai_service" / "prompts"
+    path = prompts / "chat_system" / "v1.md"
     # about 4 characters per token; providers cache prefixes only above a minimum size
     assert len(path.read_text(encoding="utf-8")) > 16_000
 

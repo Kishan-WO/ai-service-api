@@ -1,5 +1,7 @@
 # Reading `ai-service` from the start, step by step
 
+> **Update (Day 7):** the `/chat` system prompt is now a **registry prompt**: the long handbook is `prompts/chat_system/v1.md` and the one-line default is `prompts/chat_basic/v1.md`, chosen by the settings `CHAT_PROMPT_NAME` and `CHAT_PROMPT_VERSION`. `CHAT_SYSTEM_PROMPT`, `CHAT_SYSTEM_PROMPT_FILE` and `chat_service.system_prompt()` no longer exist (it is `chat_service.chat_prompt()` now). The text below describes Day 6.
+
 > **Where things are now:** the notes are in `day-3/`, `day-5/` and `day-6/` (see [README.md](README.md)). Day 3 notes are numbered in the order of the Day 3 tasks, Day 6 explanations in the order the layer was built. Every note a step names is listed with its path.
 
 Read in this order. Each step names the file, what to look for, and the note that explains it. Paths are inside `src/ai_service/` unless they start with `tests/`, `alembic/` or `scripts/`. A good habit: read the file, then the test that proves it, then run `uv run pytest -k <word>`.

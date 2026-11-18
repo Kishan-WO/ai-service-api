@@ -62,10 +62,10 @@ class Settings(BaseSettings):
     LOCAL_LLM_MODEL: str = "gemma3:270m"
     LLM_TIMEOUT_SECONDS: float = Field(default=60.0, gt=0)
     LLM_MAX_OUTPUT_TOKENS: int = Field(default=2000, gt=0)
-    CHAT_SYSTEM_PROMPT: str = "You are a helpful assistant. Answer clearly and briefly."
-    # A long, stable system prompt read from a file (relative paths start at the project folder).
-    # When set it replaces CHAT_SYSTEM_PROMPT. Long enough, it is cached by the provider.
-    CHAT_SYSTEM_PROMPT_FILE: str = ""
+    # The /chat system prompt is a registry prompt: prompts/<name>/<version>.md. "chat_basic" is one
+    # line; "chat_system" is a long, stable handbook that the provider caches (cheaper, faster).
+    CHAT_PROMPT_NAME: str = "chat_basic"
+    CHAT_PROMPT_VERSION: str = "v1"
     # How many of the latest stored messages are sent to the model on each turn.
     CHAT_HISTORY_LIMIT: int = Field(default=20, ge=1)
 

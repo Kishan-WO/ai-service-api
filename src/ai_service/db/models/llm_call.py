@@ -35,6 +35,8 @@ class LLMCall(Base, TimestampMixin):
         ForeignKey("users.id", ondelete="SET NULL"), nullable=True
     )
     feature: Mapped[str] = mapped_column(String(32), nullable=False)  # chat, extract, ...
+    prompt_name: Mapped[str | None] = mapped_column(String(64), nullable=True)
+    prompt_version: Mapped[str | None] = mapped_column(String(16), nullable=True)
     backend: Mapped[str] = mapped_column(String(16), nullable=False)
     model: Mapped[str] = mapped_column(String(128), nullable=False)
     operation: Mapped[str] = mapped_column(

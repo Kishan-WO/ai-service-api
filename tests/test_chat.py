@@ -450,6 +450,7 @@ async def test_the_call_is_labelled_and_asks_for_the_system_prompt_to_be_cached(
     assert request.messages[0].role == "system"  # stable part first, the new message last
     assert request.messages[-1].content == "hello"
     assert (request.context.feature, request.context.request_id) == ("chat", "chat-req-1")
+    assert (request.context.prompt_name, request.context.prompt_version) == ("chat_basic", "v1")
     assert request.context.tenant_id and request.context.user_id
 
 

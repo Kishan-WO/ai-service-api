@@ -1,5 +1,7 @@
 # Settings and the `llm_calls` table
 
+> **Update (Day 7):** the `/chat` system prompt is now a **registry prompt**: the long handbook is `prompts/chat_system/v1.md` and the one-line default is `prompts/chat_basic/v1.md`, chosen by the settings `CHAT_PROMPT_NAME` and `CHAT_PROMPT_VERSION`. `CHAT_SYSTEM_PROMPT`, `CHAT_SYSTEM_PROMPT_FILE` and `chat_service.system_prompt()` no longer exist (it is `chat_service.chat_prompt()` now). The text below describes Day 6.
+
 Two things that hold Day 6's **configuration** and **data**:
 1. `src/ai_service/core/config.py`: the new settings (lines 14 to 21 and 55 to 102).
 2. `src/ai_service/db/models/llm_call.py` (58 lines, new) and its migration `alembic/versions/86fde07d2bc3_llm_calls.py`.

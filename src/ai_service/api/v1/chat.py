@@ -70,8 +70,9 @@ async def chat(
 
     # Stable part first (system prompt, then the old messages), the new message last: that order
     # is what lets the provider reuse its cache of the prefix.
+    prompt = chat_service.chat_prompt(settings)
     messages = [
-        ChatMessage("system", chat_service.system_prompt(settings)),
+        ChatMessage("system", prompt.render()),
         *history,
         ChatMessage("user", body.message),
     ]
@@ -80,6 +81,8 @@ async def chat(
         tenant_id=str(user.tenant_id),
         user_id=str(user.id),
         feature="chat",
+        prompt_name=prompt.name,
+        prompt_version=prompt.version,
     )
 
     # Wait for the first text before answering. Until then nothing has been sent or stored, so a

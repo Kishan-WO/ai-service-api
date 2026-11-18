@@ -44,3 +44,12 @@ Records unexpected behaviors, bugs, and lessons learned during development.
 - **A latency of 56 s in the 50-input report is queueing, not the model**: with 6 requests in flight and a limit of 12 calls per minute, a request waits in my own limiter. The per-call latency in `llm_calls` (about 2 to 4 s) is the model's.
 - **A connection to a closed port takes about 2 s to fail on Windows**, so a test of "the provider is down" with three tries takes 6 s before the fallback answers.
 - **A negative budget passes the schema**: `"Budget -5000 rupees"` came back as `budget_inr: -5000`. Strict schema mode guarantees the type, not the sense. A `ge=0` on the field is the follow-up.
+
+## Day 7 (found by running it)
+- **A test set that every version passes measures nothing**: the first 30 cases (clean, one obvious topic each) gave 29/30 for all four prompt versions, so the "cheapest wins" decision was empty. The harder set (tie cases such as "paid but no access", Hinglish, an injection, a job enquiry) separated v1 (86.7%) from v2 to v4 (100%).
+- **A label and the prompt's own definitions must agree**: the prompts listed "batches starting" under `admission` while the test label for "when will the next batch start" was `schedule`; three versions "failed" by obeying their own prompt. Fix the definition or the label before comparing versions.
+- **Zero-shot answers are free text**: v1 replied with `**admission**`, `Classification: fees` or a full sentence in 17 to 19 of 30 cases (a bare label in only 11 to 13); the scorer reads the first label word and marks the reply as badly formatted. One reply even started with "Bonjour." because it obeyed the injected instruction.
+- **Latency must be read from the accounting layer, not the caller's stopwatch**: with the per-minute limiter a request can wait for its turn, so a caller-side timer showed 30 s p95 for a 1 s call. The script now takes latency from the call record.
+- **`LLMRequest` has no `temperature`**: a script that passed one crashed with a `TypeError`; the structured adapter sets 0 itself, and plain `generate` uses the provider's default (answers were identical across two runs anyway).
+- **A hand-set `LLM_REQUESTS_PER_MINUTE=12`** keeps a 120-call run under the free tier's 15 per minute; without it the first run hit 429 and waited 30 to 38 s on several calls.
+
