@@ -127,7 +127,10 @@ class SettingsLLMRegistry:
                 client,
                 max_concurrency=s.LLM_MAX_CONCURRENCY,
                 # the per-minute limit is the hosted free tier's; the others have none
-                per_minute=s.LLM_REQUESTS_PER_MINUTE if backend == "hosted" else 0,
+                per_minute={
+                    "hosted": s.LLM_REQUESTS_PER_MINUTE,
+                    "hosted_large": s.LLM_LARGE_REQUESTS_PER_MINUTE,
+                }.get(backend, 0),
             )
             self._stacks[backend] = RetryingClient(client, RetryPolicy.from_settings(s))
         return self._stacks[backend]
@@ -136,10 +139,13 @@ class SettingsLLMRegistry:
         s = self._settings
         timeout = httpx2.Timeout(s.LLM_TIMEOUT_SECONDS, connect=5.0)
         # max_retries=0 everywhere: RetryingClient retries, so the SDK must not do it as well
-        if backend == "hosted":
-            if s.LLM_API_KEY is None or not s.LLM_MODEL:
+        if backend in ("hosted", "hosted_large"):
+            model = s.LLM_LARGE_MODEL if backend == "hosted_large" else s.LLM_MODEL
+            if s.LLM_API_KEY is None or not model:
                 raise LLMNotConfiguredError(
-                    "Set LLM_API_KEY and LLM_MODEL to use the hosted model."
+                    "Set LLM_API_KEY and "
+                    + ("LLM_LARGE_MODEL" if backend == "hosted_large" else "LLM_MODEL")
+                    + " to use this hosted model."
                 )
             openai_client = AsyncOpenAI(
                 api_key=s.LLM_API_KEY.get_secret_value(),
@@ -149,7 +155,7 @@ class SettingsLLMRegistry:
             )
             self._sdk_clients.append(openai_client)
             return OpenAICompatProvider(
-                openai_client, s.LLM_MODEL, s.LLM_MAX_OUTPUT_TOKENS, backend="hosted"
+                openai_client, model, s.LLM_MAX_OUTPUT_TOKENS, backend=backend
             )
         if backend == "anthropic":
             if s.ANTHROPIC_API_KEY is None or not s.ANTHROPIC_MODEL:

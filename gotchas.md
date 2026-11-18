@@ -53,3 +53,13 @@ Records unexpected behaviors, bugs, and lessons learned during development.
 - **`LLMRequest` has no `temperature`**: a script that passed one crashed with a `TypeError`; the structured adapter sets 0 itself, and plain `generate` uses the provider's default (answers were identical across two runs anyway).
 - **A hand-set `LLM_REQUESTS_PER_MINUTE=12`** keeps a 120-call run under the free tier's 15 per minute; without it the first run hit 429 and waited 30 to 38 s on several calls.
 
+## Day 8 (found by running it)
+- **A classifier prompt with no `unclear` label can never escalate**: v2 always returns one of six labels, so "unclear goes to the large model" would have been dead code. Add the label (v5) and test it with requests that should escalate.
+- **A greeting rule must match the whole message**: "Hi, I want the eligibility criteria" is an admission question; a rule on the word "hi" sent it to `other`.
+- **Thinking tokens hide in `total_tokens`**: with `gemini-3-flash-preview`, `completion_tokens` was 1 while `total_tokens - prompt_tokens` was 41. Cost from `completion_tokens` alone is far too low for a thinking model.
+- **`gemma-4-31b-it` through the OpenAI-compatible endpoint** answered with its reasoning as text (`<thought>...</thought>`), reported 0 completion tokens, took 24 s and returned 503 under load. It is not a drop-in "large" model here.
+- **A 270M model with a label list collapses to the first label**: `gemma3:270m` answered `admission` for 39 of 60 messages. A reply that is "a valid label" is no confidence signal.
+- **Python source written through the shell**: `\b` in a regex arrived as a backspace character and the rule silently matched nothing. Build such characters with `chr(92)` and look at `repr()` of the line.
+- **A thinking model can spend the whole `max_tokens` on thinking**: with a cap of 1,000 one `gemini-3-flash-preview` answer used 996 tokens thinking and stopped mid-sentence. Give a thinking model a larger cap than a plain one, and read `finish_reason` (or compare output tokens to the cap) when a reply looks cut.
+- **A router adds latency even when it saves money**: classify and answer are two sequential calls, so the median was 4.6 s against 3.8 s for one large call. Report cost and latency together.
+- **A free daily quota decides the size of a comparison**: 20 requests a day for the large model meant 14 queries and one run. Say so next to every percentage.

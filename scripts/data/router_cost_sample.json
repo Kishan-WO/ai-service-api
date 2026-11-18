@@ -1,0 +1,208 @@
+[
+  {
+    "id": 1,
+    "from": "classify_cases.json#6",
+    "category": "fees",
+    "message": "Total fees for MERN course?",
+    "rubric": [
+      [
+        "42,000",
+        "42000"
+      ]
+    ]
+  },
+  {
+    "id": 2,
+    "from": "classify_cases.json#7",
+    "category": "fees",
+    "message": "Can I pay in 3 installments instead of one? Also is there any discount if I bring a friend?",
+    "rubric": [
+      [
+        "instalment",
+        "installment"
+      ],
+      [
+        "three or more",
+        "3 or more"
+      ],
+      [
+        "5 percent",
+        "5%"
+      ]
+    ]
+  },
+  {
+    "id": 3,
+    "from": "router_queries.json#6",
+    "category": "fees",
+    "message": "Do you give any scholarship for students whose family income is below 3 lakh?",
+    "rubric": [
+      [
+        "20 percent",
+        "20%"
+      ],
+      [
+        "income certificate"
+      ]
+    ]
+  },
+  {
+    "id": 4,
+    "from": "classify_cases.json#11",
+    "category": "schedule",
+    "message": "What time does the weekend batch start on Saturday?",
+    "rubric": [
+      [
+        "10:00",
+        "10 am",
+        "10am"
+      ]
+    ]
+  },
+  {
+    "id": 5,
+    "from": "router_queries.json#10",
+    "category": "schedule",
+    "message": "I will miss next Tuesday's session because of a wedding, can I join the Thursday batch for that topic?",
+    "rubric": [
+      [
+        "another batch",
+        "other batch",
+        "different batch"
+      ],
+      [
+        "two weeks",
+        "2 weeks"
+      ]
+    ]
+  },
+  {
+    "id": 6,
+    "from": "classify_cases.json#16",
+    "category": "academic",
+    "message": "Does the AI engineering syllabus include RAG and vector databases?",
+    "rubric": [
+      [
+        "retrieval",
+        "rag"
+      ],
+      [
+        "vector"
+      ]
+    ]
+  },
+  {
+    "id": 7,
+    "from": "router_queries.json#13",
+    "category": "academic",
+    "message": "Will we learn how to deploy a FastAPI app, or only write the code locally?",
+    "rubric": [
+      [
+        "web service"
+      ]
+    ]
+  },
+  {
+    "id": 8,
+    "from": "classify_cases.json#1",
+    "category": "admission",
+    "message": "Hi, I want to know the eligibility criteria for the Python AI course.",
+    "rubric": [
+      [
+        "python"
+      ],
+      [
+        "statistic"
+      ]
+    ]
+  },
+  {
+    "id": 9,
+    "from": "classify_cases.json#21",
+    "category": "complaint",
+    "message": "I paid the fee 2 days ago but still have no access to the student portal!",
+    "rubric": [
+      [
+        "sorry",
+        "apolog"
+      ],
+      [
+        "admissions manager"
+      ]
+    ]
+  },
+  {
+    "id": 10,
+    "from": "router_queries.json#18",
+    "category": "complaint",
+    "message": "The online class link for yesterday was wrong and I lost the whole lecture. Please fix this.",
+    "rubric": [
+      [
+        "sorry",
+        "apolog"
+      ],
+      [
+        "recording"
+      ]
+    ]
+  },
+  {
+    "id": 11,
+    "from": "router_queries.json#3",
+    "category": "admission",
+    "message": "Do I need to submit my 10th marksheet when I join, or is Aadhaar enough?",
+    "rubric": [
+      [
+        "aadhaar"
+      ],
+      [
+        "photograph"
+      ]
+    ]
+  },
+  {
+    "id": 12,
+    "from": "router_queries.json#25",
+    "category": "unclear",
+    "message": "I paid 20000 last week, the batch time changed without telling me, my son cannot attend now, and I also want to switch him from Python to Data Science and get a partial refund. What are my options?",
+    "rubric": [
+      [
+        "admissions manager",
+        "admissions team",
+        "director",
+        "call back",
+        "callback"
+      ]
+    ]
+  },
+  {
+    "id": 13,
+    "from": "router_queries.json#26",
+    "category": "unclear",
+    "message": "My lawyer says the refund terms in your contract are not valid. What do you have to say?",
+    "rubric": [
+      [
+        "admissions manager",
+        "admissions team",
+        "director",
+        "call back",
+        "callback"
+      ]
+    ]
+  },
+  {
+    "id": 14,
+    "from": "router_queries.json#27",
+    "category": "unclear",
+    "message": "I am a working professional in Pune and my wife is expecting next month. I may have to pause for 6 weeks. Will my fee and batch adjust, and can I still get the certificate?",
+    "rubric": [
+      [
+        "admissions manager",
+        "admissions team",
+        "director",
+        "call back",
+        "callback"
+      ]
+    ]
+  }
+]

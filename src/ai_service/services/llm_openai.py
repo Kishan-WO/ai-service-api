@@ -107,9 +107,13 @@ def usage_from_openai(usage: Any) -> Usage:
     details = getattr(usage, "prompt_tokens_details", None)
     cached = int(getattr(details, "cached_tokens", 0) or 0)
     prompt = int(usage.prompt_tokens or 0)
+    completion = int(usage.completion_tokens or 0)
+    # A thinking model (gemini-3-flash-preview) bills its thinking as output but does not count it
+    # in completion_tokens: total_tokens still has it. Seen live: prompt 8, completion 1, total 49.
+    total = int(getattr(usage, "total_tokens", 0) or 0)
     return Usage(
         input_tokens=max(prompt - cached, 0),
-        output_tokens=int(usage.completion_tokens or 0),
+        output_tokens=max(completion, total - prompt),
         cache_read_tokens=cached,
     )
 

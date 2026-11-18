@@ -93,3 +93,15 @@ def test_a_blank_value_in_the_env_file_means_not_set() -> None:
     assert blank.LLM_FALLBACK_BACKEND is None
     with pytest.raises(LLMNotConfiguredError):
         SettingsLLMRegistry(blank).get("hosted")
+
+
+async def test_the_large_hosted_backend_uses_its_own_model_and_needs_it_set() -> None:
+    registry = SettingsLLMRegistry(settings(LLM_LARGE_MODEL="large-model"))
+    large = registry.get("hosted_large")
+
+    assert (large.backend, large.model) == ("hosted_large", "large-model")
+    assert registry.get("hosted").model == "hosted-model"  # the small one is unchanged
+    await registry.aclose()
+
+    with pytest.raises(LLMNotConfiguredError, match="LLM_LARGE_MODEL"):
+        SettingsLLMRegistry(settings()).get("hosted_large")

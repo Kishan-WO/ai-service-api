@@ -58,6 +58,10 @@ class Settings(BaseSettings):
     LLM_API_KEY: SecretStr | None = None
     LLM_BASE_URL: str = "https://generativelanguage.googleapis.com/v1beta/openai/"
     LLM_MODEL: str = ""
+    # "hosted_large" = a second, stronger model on the same hosted API (same key and base URL).
+    # /route sends unclear requests to it when LLM_LARGE_MODEL is set; empty = use "hosted".
+    LLM_LARGE_MODEL: str = ""
+    LLM_LARGE_REQUESTS_PER_MINUTE: int = Field(default=0, ge=0)  # its own quota (0 = no limit)
     LOCAL_LLM_BASE_URL: str = "http://localhost:11434/v1"
     LOCAL_LLM_MODEL: str = "gemma3:270m"
     LLM_TIMEOUT_SECONDS: float = Field(default=60.0, gt=0)
@@ -91,6 +95,8 @@ class Settings(BaseSettings):
         default_factory=lambda: {
             # Standard (paid) price. The free tier does not bill, so this is the cost it would have.
             "gemini-3.1-flash-lite": ModelPrice(input=0.25, output=1.50, cache_read=0.025),
+            # the "large" model of the Day 8 router; its output price includes thinking tokens
+            "gemini-3-flash-preview": ModelPrice(input=0.50, output=3.00, cache_read=0.05),
             "gemma3:270m": ModelPrice(),  # local: no per-token price
         }
     )

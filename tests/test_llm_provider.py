@@ -276,3 +276,26 @@ async def test_geminis_wait_is_read_from_the_error_text_when_there_is_no_header(
     with pytest.raises(RateLimitedError) as caught:
         await server.provider().generate(request())
     assert caught.value.retry_after == pytest.approx(23.6, abs=0.01)
+
+
+async def test_thinking_tokens_are_part_of_the_output_even_when_completion_tokens_omit_them() -> (
+    None
+):
+    """Seen live on gemini-3-flash-preview: prompt 8, completion 1, total 49 (about 40 thinking)."""
+    server = FakeServer(
+        httpx2.Response(
+            200,
+            json={
+                "choices": [
+                    {
+                        "index": 0,
+                        "message": {"role": "assistant", "content": "ok"},
+                        "finish_reason": "stop",
+                    }
+                ],
+                "usage": {"prompt_tokens": 8, "completion_tokens": 1, "total_tokens": 49},
+            },
+        )
+    )
+    result = await server.provider().generate(request())
+    assert result.usage == Usage(input_tokens=8, output_tokens=41)

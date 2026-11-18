@@ -1,0 +1,315 @@
+{
+  "small": "gemini-3.1-flash-lite",
+  "large": "gemini-3-flash-preview",
+  "summary": {
+    "queries": 14,
+    "avg_cost_always_large": 0.0032646214285714284,
+    "avg_cost_router": 0.0015036642857142856,
+    "cost_saving_percent": 53.9,
+    "known_intents_only_saving_percent": 74.2,
+    "median_latency_always_large_s": 3.8,
+    "median_latency_router_s": 4.63,
+    "p95_latency_always_large_s": 6.03,
+    "p95_latency_router_s": 8.07,
+    "rubric_always_large": 0.893,
+    "rubric_router": 0.893,
+    "escalated": 3,
+    "large_calls_used": 14
+  },
+  "rows": [
+    {
+      "id": 1,
+      "from": "classify_cases.json#6",
+      "label": "fees",
+      "intent": "fees",
+      "rule": false,
+      "escalated": false,
+      "large_cost": 0.0036985,
+      "large_ms": 3286.1,
+      "large_score": 1.0,
+      "large_tokens": [
+        4823,
+        429
+      ],
+      "router_cost": 0.00075125,
+      "router_ms": 4228.9,
+      "router_score": 1.0,
+      "large_answer": "The fee for the Web Development (MERN) course is 42,000 rupees, which includes GST. There is also a one-time registration fee of 1,000 rupees for new students.\n\nWould you like to know more about the syllabus or the instalment options available for this course?",
+      "router_answer": "The fee for the Web Development (MERN) course is 42,000 rupees, which includes GST. \n\nBefore I can provide more details, could you tell me a bit about your current programming experience or what your learning goals are?",
+      "message": "Total fees for MERN course?"
+    },
+    {
+      "id": 2,
+      "from": "classify_cases.json#7",
+      "label": "fees",
+      "intent": "fees",
+      "rule": false,
+      "escalated": false,
+      "large_cost": 0.00296335,
+      "large_ms": 3327.1,
+      "large_score": 1.0,
+      "large_tokens": [
+        4838,
+        487
+      ],
+      "router_cost": 0.00085775,
+      "router_ms": 4586.2,
+      "router_score": 1.0,
+      "large_answer": "Yes, for courses of 20 weeks or longer, you can pay in 3 equal installments at admission, week 8, and week 16. For shorter courses, the fee can be paid in 2 equal installments.\n\nRegarding your friend, we offer a group discount of 5% off for each person if three or more friends join the same batch together. Which course are you and your friend interested in joining?",
+      "router_answer": "Yes, you can pay in 3 equal instalments for courses of 20 weeks or longer. For shorter courses, the fee is split into 2 equal instalments. There is no extra charge for using the instalment option.\n\nRegarding your friend, we offer a group discount: if three or more friends join the same batch together, each of you gets 5 percent off the course fee. Please note that this cannot be combined with the discount for paying the full fee upfront.\n\nTo help me give you the best information, could you please tell me which course you are interested in?",
+      "message": "Can I pay in 3 installments instead of one? Also is there any discount if I bring a friend?"
+    },
+    {
+      "id": 3,
+      "from": "router_queries.json#6",
+      "label": "fees",
+      "intent": "fees",
+      "rule": false,
+      "escalated": false,
+      "large_cost": 0.00259135,
+      "large_ms": 2686.6,
+      "large_score": 1.0,
+      "large_tokens": [
+        4832,
+        364
+      ],
+      "router_cost": 0.00080225,
+      "router_ms": 4250.9,
+      "router_score": 1.0,
+      "large_answer": "Yes, we offer a need-based scholarship of up to 20 percent for students whose family income is below 3 lakh rupees a year. You will need to provide an income certificate to apply for this. Please note that scholarship seats are limited to 3 per batch and cannot be combined with other discounts.",
+      "router_answer": "Yes, we offer a need-based scholarship of up to 20 percent for students whose family income is below 3 lakh rupees a year, subject to the submission of an income certificate. Please note that scholarship seats are limited to 3 per batch and only one scholarship can be applied.\n\nTo help me guide you further, could you tell me a bit about your current educational background or your career goals?",
+      "message": "Do you give any scholarship for students whose family income is below 3 lakh?"
+    },
+    {
+      "id": 4,
+      "from": "classify_cases.json#11",
+      "label": "schedule",
+      "intent": "schedule",
+      "rule": false,
+      "escalated": false,
+      "large_cost": 0.00220135,
+      "large_ms": 2527.8,
+      "large_score": 1.0,
+      "large_tokens": [
+        4826,
+        235
+      ],
+      "router_cost": 0.00076225,
+      "router_ms": 4538.200000000001,
+      "router_score": 1.0,
+      "large_answer": "The weekend batches for Python Foundations, Digital Skills, and the Career Preparation Workshop run from 10:00 to 14:00 on both Saturday and Sunday. Please note that Sunday classes for these batches are held only at our Ahmedabad centre.",
+      "router_answer": "Weekend batches for Python Foundations, Digital Skills, and the Career Preparation Workshop run on both Saturday and Sunday from 10:00 to 14:00. \n\nTo help me assist you further, could you tell me a little about your goal or background so I can recommend the right course for you?",
+      "message": "What time does the weekend batch start on Saturday?"
+    },
+    {
+      "id": 5,
+      "from": "router_queries.json#10",
+      "label": "schedule",
+      "intent": "schedule",
+      "rule": false,
+      "escalated": false,
+      "large_cost": 0.0034755,
+      "large_ms": 2924.8,
+      "large_score": 1.0,
+      "large_tokens": [
+        4839,
+        352
+      ],
+      "router_cost": 0.00075375,
+      "router_ms": 4339.4,
+      "router_score": 1.0,
+      "large_answer": "Yes, you can attend the same topic in another batch of the same course within two weeks of your missed session. Alternatively, you can watch the recording of the Tuesday session on your learning portal. Please check with your centre manager to ensure a seat is available in the Thursday batch.",
+      "router_answer": "Yes, you can! If you miss a session, you are welcome to attend the same topic in another batch of the same course within two weeks, or you can watch the recording. Please make sure to check the schedule to see which batch is covering that topic on Thursday.",
+      "message": "I will miss next Tuesday's session because of a wedding, can I join the Thursday batch for that topic?"
+    },
+    {
+      "id": 6,
+      "from": "classify_cases.json#16",
+      "label": "academic",
+      "intent": "academic",
+      "rule": false,
+      "escalated": false,
+      "large_cost": 0.00289235,
+      "large_ms": 3405.1,
+      "large_score": 1.0,
+      "large_tokens": [
+        4828,
+        465
+      ],
+      "router_cost": 0.000996,
+      "router_ms": 4672.0,
+      "router_score": 1.0,
+      "large_answer": "Yes, the Machine Learning and AI Engineering course covers retrieval-augmented generation (RAG) and vector search in weeks 18 to 21. During these weeks, you will learn about splitting documents, embeddings, and measuring answer quality.\n\nThe course lasts 28 weeks and costs 78,000 rupees including GST. May I ask if you are already comfortable with Python and basic statistics, as these are prerequisites for this course?",
+      "router_answer": "Yes, the Machine Learning and AI Engineering course includes both topics. \n\nSpecifically, in weeks 18 to 21, students cover retrieval-augmented generation (RAG), including splitting documents, creating embeddings, and performing vector searches to answer queries with sources. \n\nTo help me give you the best advice, could you tell me a bit about your background in programming or mathematics?",
+      "message": "Does the AI engineering syllabus include RAG and vector databases?"
+    },
+    {
+      "id": 7,
+      "from": "router_queries.json#13",
+      "label": "academic",
+      "intent": "academic",
+      "rule": false,
+      "escalated": false,
+      "large_cost": 0.00302685,
+      "large_ms": 3831.3,
+      "large_score": 1.0,
+      "large_tokens": [
+        4833,
+        509
+      ],
+      "router_cost": 0.0010105,
+      "router_ms": 5942.9,
+      "router_score": 1.0,
+      "large_answer": "I do not have information specifically about FastAPI in our handbook. However, our Web Development (MERN) course includes deploying a full application to a cloud host in weeks 17 and 18. Additionally, the Machine Learning and AI Engineering course covers building, testing, and monitoring a web service around a model.\n\nIf you would like to know the exact frameworks used in these modules, I can have our admissions team call you back. Which course are you most interested in?",
+      "router_answer": "In the **Machine Learning and AI Engineering** course, we do cover deployment. Weeks 22 to 25 focus on building a web service around a model, which includes authentication, databases, and monitoring, as well as deployment to ensure your application is accessible.\n\nTo help me give you the best advice, could you please tell me a bit about your current programming background or what your specific goal is for learning these skills?",
+      "message": "Will we learn how to deploy a FastAPI app, or only write the code locally?"
+    },
+    {
+      "id": 8,
+      "from": "classify_cases.json#1",
+      "label": "admission",
+      "intent": "admission",
+      "rule": false,
+      "escalated": false,
+      "large_cost": 0.00316385,
+      "large_ms": 3848.8,
+      "large_score": 1.0,
+      "large_tokens": [
+        4831,
+        555
+      ],
+      "router_cost": 0.0008775,
+      "router_ms": 5632.6,
+      "router_score": 1.0,
+      "large_answer": "For the Python Foundations course, you only need to be at least 15 years old, and no prior programming knowledge is required. To join the Machine Learning and AI Engineering course, you should be at least 17, know Python well, and understand basic statistics.\n\nTo help me guide you to the right starting point, could you tell me about your current background or experience with programming?",
+      "router_answer": "Hello! As an AI assistant, I can certainly help you with that.\n\nTo give you the most accurate information, could you please tell me a bit about your current programming background or if you have any prior experience with Python?\n\nRegarding your question, we offer a **Machine Learning and AI Engineering** course which requires students to have a good knowledge of Python and basic statistics. For this course, the minimum age is 17, and there is no upper age limit. We also conduct a short 20-minute technical interview to ensure you are ready for the curriculum.",
+      "message": "Hi, I want to know the eligibility criteria for the Python AI course."
+    },
+    {
+      "id": 9,
+      "from": "classify_cases.json#21",
+      "label": "complaint",
+      "intent": "complaint",
+      "rule": true,
+      "escalated": false,
+      "large_cost": 0.00286535,
+      "large_ms": 3786.1,
+      "large_score": 0.5,
+      "large_tokens": [
+        4834,
+        455
+      ],
+      "router_cost": 0.0004845,
+      "router_ms": 3981.1,
+      "router_score": 1.0,
+      "large_answer": "I am sorry for the delay in getting your login details. Usually, a welcome message with your portal access is sent after the first payment is processed. \n\nPlease check your email spam folder first. If you still don't see it, I can ask the admissions team to call you today to fix this, or you can contact them through the form on our website.",
+      "router_answer": "I am sorry to hear that you are experiencing issues with your portal access. To help me look into this, please provide the date of your payment, the name of your course, and your payment or ticket number. Once I have these details, I will check the status of your account and guide you on the next steps. If you would prefer to speak with our admissions manager, I can certainly connect you.",
+      "message": "I paid the fee 2 days ago but still have no access to the student portal!"
+    },
+    {
+      "id": 10,
+      "from": "router_queries.json#18",
+      "label": "complaint",
+      "intent": "complaint",
+      "rule": false,
+      "escalated": false,
+      "large_cost": 0.00359485,
+      "large_ms": 4463.8,
+      "large_score": 1.0,
+      "large_tokens": [
+        4835,
+        698
+      ],
+      "router_cost": 0.00057575,
+      "router_ms": 4116.7,
+      "router_score": 0.5,
+      "large_answer": "I am sorry for the frustration caused by the incorrect link. For all online classes, a recording is shared on the learning portal within two hours of the session and remains available for 60 days, so you can watch yesterday's lecture there. \n\nI do not have access to the specific batch links myself, but I can have the admissions team call you to ensure this is resolved for your future classes. Would you like me to note your request for a call back?",
+      "router_answer": "I am sorry that you missed your lecture due to the incorrect link. To help me look into this, please provide the date, the course name, and your payment or ticket number. Once I have these details, I will check the issue with our technical team, and I would also be happy to connect you with our admissions manager to discuss this further.",
+      "message": "The online class link for yesterday was wrong and I lost the whole lecture. Please fix this."
+    },
+    {
+      "id": 11,
+      "from": "router_queries.json#3",
+      "label": "admission",
+      "intent": "admission",
+      "rule": false,
+      "escalated": false,
+      "large_cost": 0.00319135,
+      "large_ms": 3820.0,
+      "large_score": 1.0,
+      "large_tokens": [
+        4838,
+        563
+      ],
+      "router_cost": 0.0008045,
+      "router_ms": 6818.900000000001,
+      "router_score": 1.0,
+      "large_answer": "For admission, an Aadhaar card is sufficient as your photo ID. The documents required are:\n\n*   One photo ID (Aadhaar, passport, or college ID)\n*   A passport-size photograph\n*   An income certificate (only if you are applying for a need-based scholarship)\n\nIf you are under 18, a parent or guardian must also sign the admission form. Which course are you interested in joining?",
+      "router_answer": "To join Bright Path Academy, you only need to provide one photo ID, such as your Aadhaar card, and a passport-size photograph. A 10th marksheet is not required for the admission process. \n\nTo help me guide you better, could you please tell me which course you are interested in joining?",
+      "message": "Do I need to submit my 10th marksheet when I join, or is Aadhaar enough?"
+    },
+    {
+      "id": 12,
+      "from": "router_queries.json#25",
+      "label": "unclear",
+      "intent": "unclear",
+      "rule": false,
+      "escalated": true,
+      "large_cost": 0.00450335,
+      "large_ms": 6025.8,
+      "large_score": 0.0,
+      "large_tokens": [
+        4864,
+        996
+      ],
+      "router_cost": 0.0046181,
+      "router_ms": 8069.0,
+      "router_score": 0.0,
+      "large_answer": "I am sorry for the inconvenience caused by the change in batch timing. Since you are asking for a refund and a course switch, here is the information from our policy:\n\n",
+      "router_answer": "I am sorry for the inconvenience caused by the change in batch timing. Since you are asking for a refund and a course switch, here is the information from our policy:\n\n",
+      "message": "I paid 20000 last week, the batch time changed without telling me, my son cannot attend now, and I also want to switch him from Python to Data Science and get a partial refund. What are my options?"
+    },
+    {
+      "id": 13,
+      "from": "router_queries.json#26",
+      "label": "unclear",
+      "intent": "unclear",
+      "rule": false,
+      "escalated": true,
+      "large_cost": 0.00345135,
+      "large_ms": 4553.4,
+      "large_score": 1.0,
+      "large_tokens": [
+        4836,
+        650
+      ],
+      "router_cost": 0.0035591000000000004,
+      "router_ms": 7085.099999999999,
+      "router_score": 1.0,
+      "large_answer": "I understand your concern. At Bright Path Academy, our policy states that if a refund is requested within 7 days of admission and before attending more than 2 sessions, 90% of the fee paid is refunded, excluding the 1,000 rupees registration fee. After the first 2 sessions, no refund is given, though students may transfer their instalments to a later batch once.\n\nI am an AI assistant and cannot provide legal advice. I would be happy to have our admissions manager call you to discuss this further.",
+      "router_answer": "I understand your concern. At Bright Path Academy, our policy states that if a refund is requested within 7 days of admission and before attending more than 2 sessions, 90% of the fee paid is refunded, excluding the 1,000 rupees registration fee. After the first 2 sessions, no refund is given, though students may transfer their instalments to a later batch once.\n\nI am an AI assistant and cannot provide legal advice. I would be happy to have our admissions manager call you to discuss this further.",
+      "message": "My lawyer says the refund terms in your contract are not valid. What do you have to say?"
+    },
+    {
+      "id": 14,
+      "from": "router_queries.json#27",
+      "label": "unclear",
+      "intent": "unclear",
+      "rule": false,
+      "escalated": true,
+      "large_cost": 0.00408535,
+      "large_ms": 5387.8,
+      "large_score": 1.0,
+      "large_tokens": [
+        4856,
+        858
+      ],
+      "router_cost": 0.0041981,
+      "router_ms": 7045.6,
+      "router_score": 1.0,
+      "large_answer": "Congratulations on the upcoming addition to your family! According to our policy, a student can pause a course for up to 4 weeks once and rejoin the next batch from the same point.\n\nSince you are looking for a 6-week break, you may need to transfer to a later batch. To receive your certificate, you must maintain at least 75% attendance and complete your final project.\n\nWould you like me to have the admissions team call you to discuss how we can accommodate your specific schedule? Also, which course are you interested in joining?",
+      "router_answer": "Congratulations on the upcoming addition to your family! According to our policy, a student can pause a course for up to 4 weeks once and rejoin the next batch from the same point.\n\nSince you are looking for a 6-week break, you may need to transfer to a later batch. To receive your certificate, you must maintain at least 75% attendance and complete your final project.\n\nWould you like me to have the admissions team call you to discuss how we can accommodate your specific schedule? Also, which course are you interested in joining?",
+      "message": "I am a working professional in Pune and my wife is expecting next month. I may have to pause for 6 weeks. Will my fee and batch adjust, and can I still get the certificate?"
+    }
+  ]
+}

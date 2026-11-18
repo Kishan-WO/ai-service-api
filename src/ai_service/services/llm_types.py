@@ -8,7 +8,7 @@ from collections.abc import AsyncGenerator
 from dataclasses import dataclass, field
 from typing import Any, Literal, Protocol
 
-Backend = Literal["hosted", "local", "anthropic"]
+Backend = Literal["hosted", "hosted_large", "local", "anthropic"]
 Role = Literal["system", "user", "assistant"]
 
 # Stop reasons are mapped to this small vocabulary by every adapter.

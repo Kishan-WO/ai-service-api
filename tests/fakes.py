@@ -113,6 +113,9 @@ class FakeRegistry:
     ) -> None:
         self.hosted = hosted or FakeProvider("fake-hosted")
         self.local = local or FakeProvider("fake-local", backend="local")
+        self.hosted_large = FakeProvider("fake-large", backend="hosted_large")
 
     def get(self, backend: Backend) -> LLMClient:
+        if backend == "hosted_large":
+            return self.hosted_large
         return self.hosted if backend == "hosted" else self.local

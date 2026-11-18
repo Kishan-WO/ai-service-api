@@ -29,3 +29,4 @@ day-N/
 - Day 5 questions: [day-5/questions/](day-5/questions/README.md) (Q23 to Q30, plus a note of short questions).
 - Day 6 questions: [day-6/questions/](day-6/questions/README.md) (Q31 to Q42).
 - Day 7 questions: [day-7/questions/](day-7/questions/README.md) (Q43 onward).
+- Day 8 questions: [day-8/questions/](day-8/questions/README.md) (Q44 to Q47).
