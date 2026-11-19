@@ -9,3 +9,6 @@ __pycache__/
 .ruff_cache/
 tests/
 notes/
+
+# the React app has its own image (frontend/Dockerfile)
+frontend/

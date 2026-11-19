@@ -60,6 +60,18 @@ services:
       retries: 5
       start_period: 20s
 
+  frontend:
+    # the React app (./frontend): nginx serves the built site and forwards /api to the api service
+    build:
+      context: ./frontend
+    container_name: ai-service-frontend
+    restart: unless-stopped
+    depends_on:
+      api:
+        condition: service_healthy
+    ports:
+      - "3000:80"  # http://localhost:3000 (5173 stays free for `npm run dev`)
+
 volumes:
   postgres_data:
   redis_data:
