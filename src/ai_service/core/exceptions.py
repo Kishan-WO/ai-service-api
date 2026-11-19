@@ -89,6 +89,20 @@ class LLMUnavailableError(AppError):
     message = "The language model could not be reached. Please try again."
 
 
+class SummariseFailedError(AppError):
+    """Too many documents could not be summarised, so no combined overview was built."""
+
+    status_code = 502
+    code = "SUMMARISE_FAILED"
+    message = "Too many documents could not be summarised. Please try again."
+
+
+class DocumentTooLongError(AppError):
+    status_code = 413
+    code = "DOCUMENT_TOO_LONG"
+    message = "A document is too long to summarise in one call."
+
+
 class ExtractionFailedError(AppError):
     status_code = 422
     code = "EXTRACTION_FAILED"

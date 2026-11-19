@@ -64,6 +64,8 @@ class Settings(BaseSettings):
     LLM_LARGE_REQUESTS_PER_MINUTE: int = Field(default=0, ge=0)  # its own quota (0 = no limit)
     LOCAL_LLM_BASE_URL: str = "http://localhost:11434/v1"
     LOCAL_LLM_MODEL: str = "gemma3:270m"
+    # /summarise refuses a document longer than this (the whole text goes into one model call).
+    SUMMARISE_MAX_DOCUMENT_CHARS: int = Field(default=30000, gt=0)
     LLM_TIMEOUT_SECONDS: float = Field(default=60.0, gt=0)
     LLM_MAX_OUTPUT_TOKENS: int = Field(default=2000, gt=0)
     # The /chat system prompt is a registry prompt: prompts/<name>/<version>.md. "chat_basic" is one

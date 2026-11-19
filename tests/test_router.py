@@ -309,10 +309,14 @@ async def test_post_route_answers_with_the_small_backend_and_reports_the_meta(
 
 @pytest.mark.asyncio
 async def test_post_route_sends_an_unclear_message_to_the_large_backend(
-    client: httpx.AsyncClient, auth_headers: dict[str, str], llm: FakeRegistry
+    app: Any, client: httpx.AsyncClient, auth_headers: dict[str, str], llm: FakeRegistry
 ) -> None:
     llm.local = FakeLLMClient(reply="none of these", backend="local", model="small")  # type: ignore[assignment]
     llm.hosted = FakeLLMClient(reply="large", backend="hosted", model="large")  # type: ignore[assignment]
+    from ai_service.core.config import get_settings
+
+    no_large = get_settings().model_copy(update={"LLM_LARGE_MODEL": ""})
+    app.dependency_overrides[get_settings] = lambda: no_large  # whatever the .env says
     response = await client.post(ROUTE_URL, json={"message": "asdf qwerty"}, headers=auth_headers)
 
     assert response.status_code == 200

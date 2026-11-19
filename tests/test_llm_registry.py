@@ -18,6 +18,7 @@ def settings(**overrides: object) -> Settings:
         "LLM_API_KEY": "key",
         "LLM_MODEL": "hosted-model",
         "LOCAL_LLM_MODEL": "local-model",
+        "LLM_LARGE_MODEL": "",  # never read from a developer's .env
     }
     return Settings(**{**values, **overrides})  # type: ignore[arg-type]
 

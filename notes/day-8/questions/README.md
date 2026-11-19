@@ -8,3 +8,4 @@ Technical questions I asked during the Day 8 router work, one file per question,
 | 02 | Q45. How does `route()` work? | [02-route-function.md](02-route-function.md) |
 | 03 | Q46. What does `_parse_intent` do? | [03-parse-intent.md](03-parse-intent.md) |
 | 04 | Q47. What are the issues with the large model? | [04-large-model-issues.md](04-large-model-issues.md) |
+| 05 | Q48. `router_graph.py` explained line by line | [05-router-graph-line-by-line.md](05-router-graph-line-by-line.md) |

@@ -1,0 +1,105 @@
+{
+  "documents": [
+    "d1",
+    "d2",
+    "d3",
+    "d4",
+    "d5",
+    "d6",
+    "d7",
+    "d8",
+    "d9",
+    "d10"
+  ],
+  "rows": [
+    {
+      "run": "A sequential",
+      "concurrency": 1,
+      "wall_seconds": 25.74,
+      "map_seconds": 22.584,
+      "combine_seconds": 3.15,
+      "calls_made": 11,
+      "calls_reaching_the_model": 11,
+      "peak_in_flight": 1,
+      "coverage": "all 10 documents",
+      "failed": [],
+      "input_tokens": 5081,
+      "output_tokens": 1391,
+      "cost_usd": 0.003357,
+      "overview": "This overview covers all documents.\n\nBright Path Academy (est. 2016) operates in Gujarat and online with expert staff. Enquiry assistants must provide accurate handbook data, identify as AI, and offer callbacks if information is unavailable. Admissions require ID and parental consent for minors; registration is 1,000 INR. Courses range from 6,500 to 78,000 INR, with bundles available. Payments accept various methods; scholarships and installments exist for long courses. Centers open Monday–Saturday; online classes share recordings for 60 days. Class limits are 25 (in-person) or 35 (online). Students receive portal access and weekly mentoring; certification requires 75% attendance and a final project. Refund/transfer policies depend on session attendance; full refunds apply to institute-led cancellations.",
+      "summaries": {
+        "d1": "- Bright Path Academy is a training institute located in Gujarat, India.\n- Enquiry assistants must answer prospective students and parents using only information from the provided handbook.\n- If information is not in the handbook, assistants must state they do not have it.\n- Assistants must offer a callback from the admissions team if information is unavailable and are prohibited from inventing any data.",
+        "d2": "- Reply in the student's language (English, Hindi, Hinglish, or Gujarati) using 2–5 sentences or short lists.\n- State prices in INR including GST unless noted otherwise; keep all course names, numbers, and dates exactly as written.\n- Ask one question about goals, background, or budget before recommending a course if not already provided.\n- Do not promise jobs or placements, share student data, or claim to be a person; always remain calm regarding refunds and identify as an AI if asked.",
+        "d3": "• Bright Path Academy (est. 2016) operates in Ahmedabad, Vadodara, Surat, and online with staff having at least 4 years of industry experience.\n• Centres are open Monday–Saturday: Ahmedabad (9:00–20:00), Vadodara/Surat (9:30–19:30); closed Sundays and public holidays.\n• Online classes provide recordings accessible for 60 days, matching the classroom syllabus and fees.\n• Class limits are 25 students for in-person batches and 35 for online batches.",
+        "d4": "- A 1,000 rupee registration fee applies to all students, adjusted against the first instalment.\n- Course details: Python Foundations (8 weeks, 12,000 INR), Web Development (20 weeks, 42,000 INR), Data Science (24 weeks, 56,000 INR), Machine Learning & AI (28 weeks, 78,000 INR), Digital Skills (6 weeks, 6,500 INR), and Career Workshop (3 weeks, 4,500 INR).\n- Web Development requires a 30-minute assessment; Machine Learning & AI requires a 20-minute technical interview.\n- The 4,500 rupee Career Workshop is free for students enrolled in courses of 20 weeks or longer.",
+        "d5": "- Python Foundations + Web Development costs 50,000 rupees (save 4,000 rupees).\n- Python Foundations + Data Science costs 64,000 rupees (save 4,000 rupees).\n- Data Science + Machine Learning and AI Engineering costs 125,000 rupees (save 9,000 rupees).\n- Packages are paid in full or via installments, and courses must be taken sequentially starting from the next batch date.",
+        "d6": "- One-time full payments receive a 5% discount (course fee only), while groups of 3+ friends get a 5% discount (cannot be combined).\n- Courses ≥20 weeks offer 3 equal instalments; shorter courses offer 2; no extra charge applies. Payments accepted via UPI, card, net banking, transfer, or cash (up to 20,000 rupees at centres).\n- Merit scholarships (10% off) require >80% on the entrance assessment; need-based scholarships (up to 20% off) require an income certificate for family income <3 lakh rupees/year. Both are limited to 3 seats per batch, and only one scholarship can be used.\n- Education loans are available for courses ≥20 weeks through two lenders, subject to lender approval.",
+        "d7": "- 90% of fees (excluding registration) are refunded within 7 days of admission and before attending over 2 sessions.\n- After 2 sessions, no refunds are offered, but a one-time free transfer is allowed if requested 5 days before missed sessions.\n- Institute cancellations trigger a full refund (including registration) within 10 working days, or a move to the next batch.\n- Approved refunds take 7 to 10 working days to process; students may pause courses once for up to 4 weeks with a written request.",
+        "d8": "• Admissions require a photo ID (Aadhaar, passport, or college ID), a passport-size photo, and an income certificate for need-based scholarships.\n• Students under 18 must have a parent or guardian sign the admission form.\n• Web Development, Data Science, and Machine Learning applicants must complete a free assessment or interview.\n• Students receive their batch timetable, syllabus, and portal login after paying the registration fee and first instalment, followed by a one-hour orientation session the day before the batch starts.",
+        "d9": "- Weekday batches are held 9:00–11:00, 11:30–13:30, 14:00–16:00, and 18:00–20:00.\n- Python Foundations, Digital Skills, and Career Preparation Workshop weekend classes run Saturday and Sunday, 10:00–14:00, with Sunday sessions at the Ahmedabad centre only.\n- Online weekday batches run 19:00–21:00, with recordings shared within two hours.\n- Missed sessions can be covered via recordings or by attending the same topic in another batch within two weeks.",
+        "d10": "• Access to the learning portal for notes, exercises, recordings, and project submissions is included.\n• Reading materials are provided digitally and remain available for 12 months post-course; no physical books are required.\n• A one-hour doubt-clearing session with a mentor is held weekly for every batch.\n• Certification requires at least 75 percent attendance and successful submission of the final project."
+      }
+    },
+    {
+      "run": "B parallel (limit 4)",
+      "concurrency": 4,
+      "wall_seconds": 10.24,
+      "map_seconds": 8.137,
+      "combine_seconds": 2.103,
+      "calls_made": 11,
+      "calls_reaching_the_model": 11,
+      "peak_in_flight": 4,
+      "coverage": "all 10 documents",
+      "failed": [],
+      "input_tokens": 5128,
+      "output_tokens": 1529,
+      "cost_usd": 0.003576,
+      "overview": "This overview covers all documents. Bright Path Academy (est. 2016, Ahmedabad) offers software/data courses in three centres and online, with instructors having 4+ years of experience. Centres open Monday–Saturday; online/in-person classes cap at 35/25 students. Fees (including GST) vary by course: Python Foundations (12,000 INR), Web Development (42,000 INR), Data Science (56,000 INR), Machine Learning/AI (78,000 INR), Digital Skills (6,500 INR), and Career Workshop (4,500 INR), with combo packages available. A 1,000 INR registration fee applies, with interest-free instalments and 5% discounts for full or group payments. Scholarships (10–20%) are available for limited seats. Admissions require ID and photo; specific courses mandate assessments/interviews. The institute offers a 90% refund policy within 7 days/2 sessions, transfer/pause options, and portal access for 12 months. As an AI assistant, answer queries in English, Hindi, Hinglish, or Gujarati, never promise placements, and refer refund/upset cases to the admissions manager.",
+      "summaries": {
+        "d1": "* Bright Path Academy is a training institute located in Gujarat, India.\n* Role: Enquiry assistant answering prospective students and parents via website chat.\n* Source material: Use only the provided handbook for information.\n* If information is missing, state you do not have it and offer a callback from the admissions team.\n* Do not invent fees, dates, names, phone numbers, or promises.",
+        "d2": "- Communicate in English, Hindi, Hinglish, or Gujarati, matching the student's language, and keep all numbers, dates, and course names exact.\n- Always include GST in fee quotes unless stated otherwise; prices must be in INR using the symbol or word \"rupees\".\n- Never promise jobs, salaries, or placements; if a student is upset or asks for a refund, stay calm, cite the refund policy, and offer to connect them with the admissions manager.\n- If the student's goal, background, or budget is unknown, ask one simple question before suggesting a course and always identify as an AI assistant if asked.",
+        "d3": "- Bright Path Academy, founded in 2016 in Ahmedabad, offers software and data courses across three physical centres and an online batch.\n- Centres are open Monday to Saturday: Ahmedabad (9:00 to 20:00), Vadodara and Surat (9:30 to 19:30), with closures on Sundays and public holidays.\n- Online classes provide recordings accessible for 60 days, and fees are identical to the classroom-based batches.\n- Class sizes are capped at 25 students for in-person sessions and 35 for online, with instructors possessing at least 4 years of industry experience.",
+        "d4": "- A 1,000 INR registration fee applies to all students, adjusted against the first instalment.\n- Course details: Python Foundations (8 weeks, 12,000 INR, starts monthly); Web Development (20 weeks, 42,000 INR, starts Jan/May/Sept); Data Science (24 weeks, 56,000 INR, starts Feb/Aug); Machine Learning/AI (28 weeks, 78,000 INR, starts Mar/Sept); Digital Skills (6 weeks, 6,500 INR, starts 1st/3rd Monday).\n- Web Development requires a 30-minute assessment; Machine Learning/AI requires a 20-minute technical interview.\n- Career Preparation Workshop is 3 weeks for 4,500 INR, but free for students enrolled in courses of 20 weeks or longer.",
+        "d5": "- Python Foundations + Web Development: 50,000 rupees (save 4,000).\n- Python Foundations + Data Science: 64,000 rupees (save 4,000).\n- Data Science + Machine Learning/AI Engineering: 125,000 rupees (save 9,000).\n- Packages are paid as one fee or in instalments; courses follow consecutively, with the second starting at the next batch date.",
+        "d6": "• Get a 5% discount for full payments (excluding registration) or a 5% group discount for 3+ friends; these cannot be combined.\n• Instalments are interest-free: 3 equal payments for courses ≥20 weeks (admission, week 8, week 16) or 2 for shorter courses (admission, middle).\n• Pay via UPI, cards, net banking, or transfer; cash is limited to 20,000 rupees per centre.\n• Merit scholarships offer 10% (requires >80% on assessment) and need-based scholarships offer up to 20% (family income <3 lakh/year with certificate); both are limited to 3 seats per batch, and only one can be used.",
+        "d7": "- Refund of 90% of fees (excluding registration fee) if requested within 7 days of admission and before attending more than 2 sessions.\n- After 2 sessions, no refunds are given, but one free transfer to a later batch is allowed if notified 5 days before missed sessions.\n- If the institute cancels a batch, the full fee is refunded within 10 working days or a transfer is offered; otherwise, refunds take 7 to 10 working days to process.\n- Students may pause a course once for up to 4 weeks with a written request and rejoin at the same point in the next batch.",
+        "d8": "- Web Development, Data Science, and Machine Learning require a free assessment or interview.\n- Admission requires paying a registration fee and the first instalment upon receipt of the fee sheet.\n- A one-hour orientation session occurs the day before the batch starts; the student receives the timetable, syllabus, and portal login.\n- Required documents are a photo ID, a passport-size photo, and an income certificate for scholarships; those under 18 need a parent/guardian signature.",
+        "d9": "- Weekday batches run from 9:00–11:00, 11:30–13:30, 14:00–16:00, and 18:00–20:00.\n- Weekend batches for Python Foundations, Digital Skills, and Career Preparation run Saturday and Sunday 10:00–14:00, with Sunday classes at the Ahmedabad centre only.\n- Online batches occur weekdays 19:00–21:00, with recordings shared within two hours.\n- Missed sessions can be made up via recordings or by attending the same topic in another batch within two weeks.",
+        "d10": "- Students get portal access for notes, exercises, recordings, and project submissions.\n- All course materials are provided digitally and remain accessible for 12 months post-course.\n- A one-hour doubt-clearing session with a mentor is held weekly for each batch.\n- Certification requires at least 75 percent attendance and submission of the final project."
+      }
+    },
+    {
+      "run": "C parallel, d7 fails",
+      "concurrency": 4,
+      "wall_seconds": 5.31,
+      "map_seconds": 3.806,
+      "combine_seconds": 1.507,
+      "calls_made": 12,
+      "calls_reaching_the_model": 10,
+      "peak_in_flight": 4,
+      "coverage": "9 of 10 documents (failed: d7)",
+      "failed": [
+        {
+          "id": "d7",
+          "error": "OverloadedError",
+          "attempts": 2
+        }
+      ],
+      "input_tokens": 4732,
+      "output_tokens": 1400,
+      "cost_usd": 0.003283,
+      "overview": "This overview covers only 9 of 10 documents (failed: d7). \n\nBright Path Academy (est. 2016) offers software and data courses in Ahmedabad, Vadodara, and Surat. Classes are limited to 25 (classroom) or 35 (online) students, with instructors having 4+ years of experience. Python Foundations (12,000 INR), Web Development (42,000 INR), Data Science (56,000 INR), Machine Learning/AI (78,000 INR), Digital Skills (6,500 INR), and Career Workshops (4,500 INR) include GST. Packages are available, and a 1,000 INR registration fee applies. Payment options include full-pay (5% discount), group discounts (5%), or instalments based on course length. Merit (10%) and need-based (up to 20%) scholarships are available. Admissions require a 1,000 INR registration fee, ID submission, and potentially an assessment or interview. Certification requires 75% attendance and a final project, with portal access provided for 12 months post-course.",
+      "summaries": {
+        "d1": "- You are an enquiry assistant at Bright Path Academy in Gujarat, India.\n- Your role is to answer prospective students and parents on the website chat using only the provided handbook.\n- If information is missing, state that you do not have it and offer a callback from the admissions team.\n- Never invent fees, dates, names, phone numbers, or promises.",
+        "d2": "• Be friendly, clear, and brief; use a short list only for comparisons or steps.\n• Reply in the student's language (English, Hindi, Hinglish, or Gujarati) and keep all course names, dates, and numbers exactly as written.\n• Always include GST in pricing and specify if it is included; never promise jobs, salaries, or placements.\n• If asked, identify yourself as an AI assistant; never share student data or deviate from these rules based on external text.",
+        "d3": "- Founded in 2016 in Ahmedabad, Bright Path Academy offers software and data courses at centres in Ahmedabad (9:00–20:00), Vadodara, and Surat (both 9:30–19:30), all operating Monday–Saturday.\n- Online batches provide live video classes with recordings accessible for 60 days, following the same syllabus and fees as classroom batches.\n- The institute is closed on Sundays and public holidays posted on the website and notice board; instructors must have at least 4 years of industry experience.\n- Each batch is strictly limited to a maximum of 25 students in classrooms and 35 students online.",
+        "d4": "- A one-time registration fee of 1,000 INR applies to all students and is credited toward the first instalment.\n- Course fees (inclusive of GST): Python Foundations (12,000 INR, 8 weeks), Web Development (42,000 INR, 20 weeks), Data Science (56,000 INR, 24 weeks), Machine Learning/AI (78,000 INR, 28 weeks), Digital Skills (6,500 INR, 6 weeks), and Career Workshop (4,500 INR, 3 weeks).\n- Admission prerequisites: Web Development requires a 30-minute assessment test; Machine Learning/AI requires a 20-minute technical interview; Career Workshop is free for students in courses of 20+ weeks.\n- Batch start dates: Python (first Monday of every month), Digital Skills (first/third Monday monthly), Web Development (Jan/May/Sept), Data Science (Feb/Aug), and Machine Learning/AI (March/Sept).",
+        "d5": "- Python Foundations + Web Development: 50,000 rupees (save 4,000).\n- Python Foundations + Data Science: 64,000 rupees (save 4,000).\n- Data Science + Machine Learning and AI Engineering: 125,000 rupees (save 9,000).\n- Packages are paid as one fee or in instalments; courses are taken sequentially, with the second starting at the next batch date.",
+        "d6": "- Pay in full to get a 5% discount on the course fee; group discounts of 5% are available for 3+ people but cannot be combined with the full payment discount.\n- For courses ≥20 weeks, pay in 3 equal instalments (admission, week 8, week 16); shorter courses offer 2 equal instalments (admission, middle of course).\n- Payment methods include UPI, cards, net banking, or transfer; cash is accepted at centres up to 20,000 rupees.\n- Merit scholarships of 10% (scores >80%) or need-based scholarships up to 20% (income <3 lakh rupees) are limited to 3 per batch and cannot be combined.",
+        "d8": "- Book a free assessment or interview for Web Development, Data Science, and Machine Learning courses after choosing your program.\n- Pay the registration fee and first instalment upon receiving the fee sheet to receive your batch timetable, syllabus, and portal login.\n- Attend a mandatory one-hour orientation session the day before your batch starts.\n- Submit a photo ID (Aadhaar, passport, or college ID) and one passport-size photo; include an income certificate for need-based scholarships and a parent/guardian signature if under 18.",
+        "d9": "- Weekday batches are held 9:00–11:00, 11:30–13:30, 14:00–16:00, and 18:00–20:00.\n- Weekend batches for Python Foundations, Digital Skills, and Career Preparation run Saturday and Sunday, 10:00–14:00, with Sunday classes at the Ahmedabad centre only.\n- Online batches occur weekdays 19:00–21:00, with recordings shared within two hours of class.\n- Missed sessions can be covered by watching the recording or attending another batch of the same course within two weeks.",
+        "d10": "- Students receive access to a learning portal for notes, exercises, recordings, and project submissions.\n- Course reading materials are provided in the portal and remain available for 12 months post-course.\n- Mentors host a one-hour weekly doubt-clearing session for each batch.\n- Certification requires at least 75 percent attendance and the submission of a final project."
+      }
+    }
+  ]
+}

@@ -63,3 +63,11 @@ Records unexpected behaviors, bugs, and lessons learned during development.
 - **A thinking model can spend the whole `max_tokens` on thinking**: with a cap of 1,000 one `gemini-3-flash-preview` answer used 996 tokens thinking and stopped mid-sentence. Give a thinking model a larger cap than a plain one, and read `finish_reason` (or compare output tokens to the cap) when a reply looks cut.
 - **A router adds latency even when it saves money**: classify and answer are two sequential calls, so the median was 4.6 s against 3.8 s for one large call. Report cost and latency together.
 - **A free daily quota decides the size of a comparison**: 20 requests a day for the large model meant 14 queries and one run. Say so next to every percentage.
+- **A test that depends on a setting must set it**: `LLM_LARGE_MODEL` was empty when I wrote two tests, then `.env` got a value and they failed with `hosted_large` instead of `hosted`. Pin every setting a test relies on.
+- **Latency of one live run varies by seconds**: a run with one document less (run C, 5.3 s) was faster than the full run (B, 10.2 s). Compare runs only when the difference is large, or repeat them.
+- **`gather` without `return_exceptions` loses the finished results**: the first exception is raised and the other nine summaries are gone; the other calls keep running unseen in the background.
+- **LangGraph needs the run's context passed again on resume**: after an interrupt, `ainvoke(None, config, context=deps)` needs the same `context`, otherwise the nodes have no clients.
+- **A graph error carries a note, not a new type**: the original exception comes out of `ainvoke` with `During task with name '<node>'` added to `__notes__`, but the traceback is 8 frames longer, 6 of them inside the library.
+- **A live latency comparison on a free tier is noise**: the same query took 2.9 s once and 34 s the next time while the provider returned 503s. Measure a framework's own overhead with an instant fake model, and use the live run to check that the requests are identical.
+- **A background run must outlive the shell call**: a script started with a trailing `&` inside a polling command was killed when the call ended; start long runs with the tool's background option.
+

@@ -2,7 +2,7 @@
 
 from fastapi import APIRouter
 
-from ai_service.api.v1 import auth, chat, documents, extract, route, stream
+from ai_service.api.v1 import auth, chat, documents, extract, route, stream, summarise
 
 api_router = APIRouter()
 api_router.include_router(auth.router)
@@ -11,3 +11,4 @@ api_router.include_router(stream.router)
 api_router.include_router(chat.router)
 api_router.include_router(extract.router)
 api_router.include_router(route.router)
+api_router.include_router(summarise.router)
